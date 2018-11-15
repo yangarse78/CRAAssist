@@ -20,33 +20,34 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
-	@Column(name = "ID", updatable = false, nullable = false)
+	@Column(name = "userId", nullable = false, updatable = false)
 	private Long id;
+		
+	@Column(name = "FIRST_NAME")
+   	@Size(max = 20, min = 3, message = "{user.name.invalid}")
+   	@NotEmpty(message="Please Enter your first name")
+   	private String firstName;
+   
+   	@Column(name = "LAST_NAME")
+   	@Size(max = 20, min = 3, message = "{user.name.invalid}")
+   	@NotEmpty(message="Please Enter your last name")
+   	private String lastName;
+   	
+   	@Column(name = "EMAIL", unique = true)
+   	@Email(message = "{user.email.invalid}")
+   	@NotEmpty(message="Please Enter your email")
+   	private String email;
 	
-   @Column(name = "FIRST_NAME")
-   @Size(max = 20, min = 3, message = "{user.name.invalid}")
-   @NotEmpty(message="Please Enter your first name")
-   private String firstName;
+   	@Column(name = "AGE")
+   	@NotNull(message="Please Enter your age")
+   	private Integer age;
 
-   @Column(name = "LAST_NAME")
-   @Size(max = 20, min = 3, message = "{user.name.invalid}")
-   @NotEmpty(message="Please Enter your last name")
-   private String lastName;
    
-   @Column(name = "EMAIL", unique = true)
-   @Email(message = "{user.email.invalid}")
-   @NotEmpty(message="Please Enter your email")
-   private String email;
+	public User() {}
+
 	
-   @Column(name = "AGE")
-   @NotNull(message="Please Enter your age")
-   private Integer age;
-
-   
-   
-   
-   
-   
+	
+	
 	public Long getId() {
 		return id;
 	}

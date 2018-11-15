@@ -1,5 +1,5 @@
-com\tourguide\model\User.class
 com\tourguide\controller\UserController.class
-com\tourguide\config\AppInitializer.class
 com\tourguide\config\HibernateConfig.class
+com\tourguide\model\User.class
+com\tourguide\config\AppInitializer.class
 com\tourguide\config\WebTourGuideConfig.class

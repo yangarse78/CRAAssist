@@ -8,7 +8,11 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.tourguide.model.IntervalType;
+import com.tourguide.model.Patient;
+import com.tourguide.model.Trial;
 import com.tourguide.model.User;
+import com.tourguide.model.VisitType;
 
 @Configuration
 @EnableTransactionManagement
@@ -23,7 +27,11 @@ public class HibernateConfig {
     public LocalSessionFactoryBean getSessionFactory() {
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
-        factoryBean.setAnnotatedClasses(User.class);
+//        factoryBean.setAnnotatedClasses(User.class);
+//        factoryBean.setAnnotatedClasses(IntervalType.class);
+//        factoryBean.setAnnotatedClasses(VisitType.class);
+//        factoryBean.setAnnotatedClasses(Trial.class);
+//        factoryBean.setAnnotatedClasses(Patient.class);
         return factoryBean;
     }
  
