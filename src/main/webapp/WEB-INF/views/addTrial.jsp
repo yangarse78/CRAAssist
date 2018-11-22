@@ -29,7 +29,7 @@
 							    <label for="TroialName">Trial Name</label>
 							    <form:input path="name" type="text" cssClass="form-control" id="trialName" placeholder="Enter Trial name"/>
 							</div>
-							<div cssClass="form-group">
+							<div class="form-group">
 							    <label for="NumOfVisits">Number Of Visits</label>
 							    <form:input path="numOfVisits" type="text" cssClass="form-control" id="numOfVisits" placeholder="Enter number of visits"/>
 							</div>
@@ -47,16 +47,15 @@
 							    		<label for="Interval">Interval</label>
 							    		<form:input path="interval" type="text" cssClass="form-control" id="interval" placeholder="Enter an interval"/>
 							    	</div>
-							    	<div class="col-4">
+	 							    <div class="col-4">
 										<fieldset style="padding-top: 37px;">
-											<label class="radio">
-												<form:radiobutton path="intervalType" value="1" checked="checked" />
-												days
-											</label>
-											<label class="radio">
-												<form:radiobutton path="intervalType" value="2" />
-												weeks
-											</label>
+													<c:forEach items="${intervalTypeList}" var="opt" varStatus="optionIndex">
+															<label class="radio">
+																<form:radiobutton path="selectedIntervalType"  
+																								value="${opt.id}" 
+																								label="${opt.intervalType}"/>
+															</label>
+													</c:forEach>
 										</fieldset>
 							    	</div>
 							    </div>
@@ -66,10 +65,9 @@
 									  <div class="input-group-prepend">
 									    	<label class="input-group-text" for="VisitType">Visit Type</label>
 									  </div>
-									  <form:select path="visitType" cssClass="custom-select" id="visitType" onchange="visitTypeChanged(this.value);">
-										    <option selected>Choose...</option>
-										    <option value="1">Telephone</option>
-										    <option value="2">Site Visit</option>
+									  <form:select path="selectedVisitType"  cssClass="custom-select" id="selectedVisitType" onchange="visitTypeChanged(this.value);">
+									        <form:option value="-" label="--Please Select"/>
+      										<form:options items="${visitTypeList}" itemValue="id" itemLabel="visitType"/>
 									  </form:select>
 								</div>
 							</div>
@@ -78,11 +76,10 @@
 									  <div class="input-group-prepend">
 									    	<label class="input-group-text" for="SiteVisitType">Site Visit Type</label>
 									  </div>
-									  <select path="siteVisitType" class="custom-select" id="siteVisitType">
-										    <option selected>Choose...</option>
-										    <option value="1">Normal</option>
-										    <option value="2">Fasting</option>
-									  </select>
+									  <form:select path="selectedSiteVisitType"  cssClass="custom-select" id="siteVisitType">
+									        <form:option value="-" label="--Please Select"/>
+      										<form:options items="${siteVisitTypeList}" itemValue="id" itemLabel="siteVisitType"/>
+									  </form:select>
 								</div>
 							</div>							
 			    	</div>

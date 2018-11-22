@@ -35,6 +35,7 @@
     <mapping class="com.tourguide.model.User"/>
     <mapping class="com.tourguide.model.IntervalType"/>
     <mapping class="com.tourguide.model.VisitType"/>
+    <mapping class="com.tourguide.model.SiteVisitType"/>
     <mapping class="com.tourguide.model.Trial"/>
     <mapping class="com.tourguide.model.Patient"/>
         

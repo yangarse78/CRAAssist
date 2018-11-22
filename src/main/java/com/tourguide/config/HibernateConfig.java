@@ -8,12 +8,6 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.tourguide.model.IntervalType;
-import com.tourguide.model.Patient;
-import com.tourguide.model.Trial;
-import com.tourguide.model.User;
-import com.tourguide.model.VisitType;
-
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {

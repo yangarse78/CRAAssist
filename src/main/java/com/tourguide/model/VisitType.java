@@ -10,19 +10,18 @@ import javax.persistence.Table;
 public class VisitType {
 
 	@Id
-//	@Column(name = "visitTypeId", nullable = false, updatable = false)
-	private int id;
+	private Long id;
 	
 	@Column(name = "VISIT_TYPE")
 	private String visitType;
 
 	public VisitType() {}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

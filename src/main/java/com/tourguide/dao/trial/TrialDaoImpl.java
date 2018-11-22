@@ -1,15 +1,41 @@
 package com.tourguide.dao.trial;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import javax.persistence.TypedQuery;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.tourguide.dao.AbstractDao;
+import com.tourguide.model.Trial;
+
 @Service
-public class TrialDaoImpl implements TrialDao {
+public class TrialDaoImpl extends AbstractDao<Long, Trial> implements TrialDao {
 
+	private static final Logger logger = LoggerFactory.getLogger(TrialDaoImpl.class);
+	
+	@Override
+	public List<Trial> getList() {
+		@SuppressWarnings("unchecked")
+		TypedQuery<Trial> query = getSession().createQuery("from Trial");
+		return query.getResultList();
+	}
 
-	@Autowired
-	 private SessionFactory sessionFactory;
+	@Override
+	public void save(Trial trial) {
+		logger.debug("Saving new trial.");
+		persist(trial);
+		Long id = trial.getId();
+		//TODO change return type of the method
+		logger.debug("New trial Id: {}.", id);
+	}
+
+	@Override
+	public Trial getTrialById(Long id) {
+		return getByKey(id);
+	}
 	
 	
 	

@@ -9,10 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -25,7 +25,6 @@ public class Trial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
-//	@Column(name = "trial_id", nullable = false, updatable = false)
 	private Long id;
 	
 	@Column(name = "TRIAL_NUM")
@@ -50,11 +49,52 @@ public class Trial {
 	
 	@OneToOne
 	private IntervalType intervalType;
+
+	@OneToOne
+	private SiteVisitType siteVisitType;
 	
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Patient> patients;
 	
+	
+	
+	
+	@Transient
+	private Long selectedVisitType;
+	@Transient
+	private Long selectedIntervalType;
+	@Transient
+	private Long selectedSiteVisitType;
+	
+		
 	public Trial() {}
+	
+	
+	public Long getSelectedVisitType() {
+		return selectedVisitType;
+	}
+
+	public void setSelectedVisitType(Long selectedVisitType) {
+		this.selectedVisitType = selectedVisitType;
+	}
+
+	public Long getSelectedIntervalType() {
+		return selectedIntervalType;
+	}
+
+	public void setSelectedIntervalType(Long selectedIntervalType) {
+		this.selectedIntervalType = selectedIntervalType;
+	}
+
+	public Long getSelectedSiteVisitType() {
+		return selectedSiteVisitType;
+	}
+
+	public void setSelectedSiteVisitType(Long selectedSiteVisitType) {
+		this.selectedSiteVisitType = selectedSiteVisitType;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -120,6 +160,14 @@ public class Trial {
 		this.intervalType = intervalType;
 	}
 
+	public SiteVisitType getSiteVisitType() {
+		return siteVisitType;
+	}
+
+	public void setSiteVisitType(SiteVisitType siteVisitType) {
+		this.siteVisitType = siteVisitType;
+	}
+
 	public List<Patient> getPatients() {
 		return patients;
 	}
@@ -127,4 +175,6 @@ public class Trial {
 	public void setPatients(List<Patient> patients) {
 		this.patients = patients;
 	}
+
+	
 }

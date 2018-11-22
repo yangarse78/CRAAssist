@@ -10,8 +10,7 @@ import javax.persistence.Table;
 public class IntervalType {
 
 	@Id
-//	@Column(name = "intervalTypeId", nullable = false, updatable = false)
-	private int id;
+	private Long id;
 	
 	@Column(name = "INTERVAL_TYPE")
 	private String intervalType;
@@ -19,13 +18,12 @@ public class IntervalType {
 	
 	public IntervalType() {}
 
-
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
