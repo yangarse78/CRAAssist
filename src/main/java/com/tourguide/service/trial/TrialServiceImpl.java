@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.tourguide.dao.trial.TrialDao;
 import com.tourguide.model.Trial;
+import com.tourguide.service.patient.PatientService;
 
 @Service
 public class TrialServiceImpl implements TrialService{
 	
 	@Autowired
 	private TrialDao trialDao;
+	
+	@Autowired
+	private PatientService patientService;
 
 	@Transactional
 	public List<Trial> getList() {
@@ -28,7 +32,9 @@ public class TrialServiceImpl implements TrialService{
 
 	@Transactional
 	public Trial getTrialById(Long id) {
-		return trialDao.getTrialById(id);
+		Trial trial = trialDao.getTrialById(id);
+		trial.setPatients(patientService.getPerTrial(id));
+		return trial;
 	}
 	
 	

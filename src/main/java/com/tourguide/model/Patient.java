@@ -2,6 +2,7 @@ package com.tourguide.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "PATIENTS")
@@ -22,7 +25,6 @@ public class Patient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
-//	@Column(name = "patient_id", nullable = false, updatable = false)
 	private Long id;
 
 	@Column(name = "SUBJECT_ID")
@@ -30,7 +32,7 @@ public class Patient {
 	@NotEmpty(message = "Please Enter your Subject number")
 	private String subjectId;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "trial_id")
 	private Trial trial;
 		
@@ -48,18 +50,18 @@ public class Patient {
 	private String email;
 	
 	@Column(name = "SCREENING_DATE")
-	@NotEmpty(message = "Screening date cannot be empty")
+//	@NotEmpty(message = "Screening date cannot be empty")
+	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date screeningDate;
-
 	
+	@Column(name = "COMMENT")
+	private String comment;
+
+	@Transient
+	private Long selectedTrial;
 	
 	public Patient() {}
 
-	
-	
-	
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -116,6 +118,14 @@ public class Patient {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 	public Date getScreeningDate() {
 		return screeningDate;
@@ -123,6 +133,14 @@ public class Patient {
 
 	public void setScreeningDate(Date screeningDate) {
 		this.screeningDate = screeningDate;
+	}
+
+	public Long getSelectedTrial() {
+		return selectedTrial;
+	}
+
+	public void setSelectedTrial(Long selectedTrial) {
+		this.selectedTrial = selectedTrial;
 	}
 
 }

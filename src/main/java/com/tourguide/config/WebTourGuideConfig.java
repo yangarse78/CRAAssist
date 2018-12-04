@@ -51,6 +51,8 @@ public class WebTourGuideConfig implements WebMvcConfigurer {
 	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+//	        registry.setOrder(1);
 	   }
 	   
 }

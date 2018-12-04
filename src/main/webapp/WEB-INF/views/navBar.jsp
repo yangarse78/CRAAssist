@@ -1,6 +1,6 @@
 <div class="container">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	  	<a class="navbar-brand" href="#">Dashboard<span class="sr-only">(current)</span></a>
+	  	<a class="navbar-brand" href="/tour-guide">Dashboard<span class="sr-only">(current)</span></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		  	<span class="navbar-toggler-icon"></span>
 		</button>
@@ -10,7 +10,7 @@
 					<a class="nav-link" href="/tour-guide/gotoAddTrial">Add New Trial</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Features</a>
+					<a class="nav-link" href="/tour-guide/gotoAddPatient">Add New Patient</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Pricing</a>

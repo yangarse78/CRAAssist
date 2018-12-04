@@ -10,9 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -40,61 +38,16 @@ public class Trial {
 	
 	@Column(name = "COMMENT")
 	private String comment;
-	
-	@OneToOne
-	private VisitType visitType;
-	
-	@Column(name = "TIME_INTERVAL")
-	private int interval;
-	
-	@OneToOne
-	private IntervalType intervalType;
 
-	@OneToOne
-	private SiteVisitType siteVisitType;
+	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<TrialVisitDef> visits;
 	
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Patient> patients;
 	
-	
-	
-	
-	@Transient
-	private Long selectedVisitType;
-	@Transient
-	private Long selectedIntervalType;
-	@Transient
-	private Long selectedSiteVisitType;
-	
-		
+
 	public Trial() {}
 	
-	
-	public Long getSelectedVisitType() {
-		return selectedVisitType;
-	}
-
-	public void setSelectedVisitType(Long selectedVisitType) {
-		this.selectedVisitType = selectedVisitType;
-	}
-
-	public Long getSelectedIntervalType() {
-		return selectedIntervalType;
-	}
-
-	public void setSelectedIntervalType(Long selectedIntervalType) {
-		this.selectedIntervalType = selectedIntervalType;
-	}
-
-	public Long getSelectedSiteVisitType() {
-		return selectedSiteVisitType;
-	}
-
-	public void setSelectedSiteVisitType(Long selectedSiteVisitType) {
-		this.selectedSiteVisitType = selectedSiteVisitType;
-	}
-
-
 
 	public Long getId() {
 		return id;
@@ -136,36 +89,12 @@ public class Trial {
 		this.comment = comment;
 	}
 
-	public VisitType getVisitType() {
-		return visitType;
+	public List<TrialVisitDef> getVisits() {
+		return visits;
 	}
 
-	public void setVisitType(VisitType visitType) {
-		this.visitType = visitType;
-	}
-
-	public int getInterval() {
-		return interval;
-	}
-
-	public void setInterval(int interval) {
-		this.interval = interval;
-	}
-
-	public IntervalType getIntervalType() {
-		return intervalType;
-	}
-
-	public void setIntervalType(IntervalType intervalType) {
-		this.intervalType = intervalType;
-	}
-
-	public SiteVisitType getSiteVisitType() {
-		return siteVisitType;
-	}
-
-	public void setSiteVisitType(SiteVisitType siteVisitType) {
-		this.siteVisitType = siteVisitType;
+	public void setVisits(List<TrialVisitDef> visits) {
+		this.visits = visits;
 	}
 
 	public List<Patient> getPatients() {

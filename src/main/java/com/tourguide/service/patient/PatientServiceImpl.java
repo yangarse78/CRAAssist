@@ -2,6 +2,8 @@ package com.tourguide.service.patient;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,23 @@ public class PatientServiceImpl implements PatientService{
 	public List<Patient> getList() {
 		// TODOY Auto-generated method stub
 		return null;
+	}
+
+	
+	public List<Patient> getPerTrial(Long id) {
+		return patientDao.getPerTrial(id);
+	}
+
+	@Transactional
+	@Override
+	public void save(Patient patient) {
+		patientDao.save(patient);
+	}
+
+	@Transactional
+	@Override
+	public Patient getPatientById(Long id) {
+		return patientDao.getPatientById(id);
 	}
 
 	

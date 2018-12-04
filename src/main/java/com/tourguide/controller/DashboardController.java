@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.tourguide.model.IntervalType;
+import com.tourguide.model.Patient;
 import com.tourguide.model.SiteVisitType;
 import com.tourguide.model.Trial;
+import com.tourguide.model.VisitTreatment;
 import com.tourguide.model.VisitType;
-import com.tourguide.service.patient.PatientService;
-import com.tourguide.service.trial.IntervalTypeService;
-import com.tourguide.service.trial.SiteVisitTypeService;
 import com.tourguide.service.trial.TrialService;
-import com.tourguide.service.trial.VisitTypeService;
+import com.tourguide.service.trial.visit.TrialVisitDefService;
 
 @Controller
 public class DashboardController {
@@ -31,13 +30,8 @@ public class DashboardController {
     private TrialService trialService;
     
     @Autowired
-    private VisitTypeService visitTypeService;
-    
-    @Autowired
-    private IntervalTypeService intervalTypeService;
-    
-    @Autowired
-    private SiteVisitTypeService siteVisitTypeService; 
+    private TrialVisitDefService trialVisitDefService;  
+
     
 	
     @GetMapping("/")
@@ -49,20 +43,36 @@ public class DashboardController {
     }
     
     @GetMapping("/gotoAddTrial")
-    public String gotoAddTrial(Locale locale, Model model) {
+    public String gotoAddTrial(final Locale locale, final Model model) {
     	logger.debug("Loading Add Trial page");
-    	List<VisitType> visitTypeList = visitTypeService.getList();
-    	List<IntervalType> intervalTypeList = intervalTypeService.getList();
-    	List<SiteVisitType> siteVisitTypeList = siteVisitTypeService.getList();
+    	List<VisitTreatment> treatmentsList = trialVisitDefService.getTreatmentList();
+    	List<VisitType> visitTypeList = trialVisitDefService.getVisitTypeList();
+    	List<IntervalType> intervalTypeList = trialVisitDefService.getIntervalTypeList();
+    	List<SiteVisitType> siteVisitTypeList = trialVisitDefService.getSiteVisitTypeList();
     	
+    	model.addAttribute("treatmentsList", treatmentsList);
     	model.addAttribute("visitTypeList", visitTypeList);
     	model.addAttribute("intervalTypeList", intervalTypeList);
     	model.addAttribute("siteVisitTypeList", siteVisitTypeList);
         return "addTrial";
     }
     
+    @GetMapping("/gotoAddPatient")
+    public String gotoAddPatient(final Locale locale, final Model model) {
+    	logger.debug("Loading Add Patient page");
+    	List<Trial> trialList = trialService.getList();
+    	
+    	model.addAttribute("trialList", trialList);
+        return "addPatient";
+    }
+    
     @ModelAttribute("trial")
-    public Trial formBackingObject() {
+    public Trial formBackingObjectTrial() {
         return new Trial();
+    }
+    
+    @ModelAttribute("patient")
+    public Patient formBackingObjectPatient() {
+        return new Patient();
     }
 }

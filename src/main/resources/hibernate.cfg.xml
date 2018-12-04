@@ -38,6 +38,8 @@
     <mapping class="com.tourguide.model.SiteVisitType"/>
     <mapping class="com.tourguide.model.Trial"/>
     <mapping class="com.tourguide.model.Patient"/>
+    <mapping class="com.tourguide.model.TrialVisitDef"/>
+    <mapping class="com.tourguide.model.VisitTreatment"/>
         
         
     </session-factory>

@@ -5,12 +5,11 @@
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+	<c:set var = "path" scope = "session" value = ""/>
     <jsp:include page="headIncludes.jsp" />
 
     
     <body>
-    
-    	
 		<jsp:include page="navBar.jsp" />
                 
 						<div class="container">
@@ -23,8 +22,6 @@
 										      <th scope="col">Trial Number</th>
 										      <th scope="col">Name</th>
 										      <th scope="col">Number of Visits</th>
-										      <th scope="col">Interval</th>
-										      <th scope="col">Visit Type</th>
 										      <th scope="col">Action</th>
 										    </tr>
 										  </thead>
@@ -35,8 +32,6 @@
 													      <td>${item.trialNum}</td>
 													      <td>${item.name}</td>
 													      <td>${item.numOfVisits}</td>
-													      <td>${item.interval}</td>
-													      <td>${item.intervalType.intervalType}</td>
 													      <td>
 													      		<spring:url value="/trial/${item.id}" var="viewUrl" />
 				  												<spring:url value="/trial/${item.id}/update" var="updateUrl" />
