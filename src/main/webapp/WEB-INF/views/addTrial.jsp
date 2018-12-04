@@ -73,7 +73,7 @@
 													      <td>
 																<fieldset>
 																			<form:select path="visits[${visitIndex.index}].selectedTreatment"  cssClass="custom-select" id="treatment_${visitIndex.index+1}">
-																		        <form:option value="-" label="--Please Select"/>
+																		        <form:option value="0" label="--Please Select"/>
 										     									<form:options items="${treatmentsList}" itemValue="id" itemLabel="treatment"/>
 																		    </form:select>
 																</fieldset>														      
@@ -84,7 +84,7 @@
 													      <td>
 																<fieldset>
 																			<form:select path="visits[${visitIndex.index}].selectedIntervalType"  cssClass="custom-select" id="intervalType_${visitIndex.index+1}">
-																		        <form:option value="-" label="--Please Select"/>
+																		        <form:option value="0" label="--Please Select"/>
 										     									<form:options items="${intervalTypeList}" itemValue="id" itemLabel="intervalType"/>
 																		    </form:select>
 																</fieldset>												      
@@ -92,7 +92,7 @@
  													      <td>
  																<fieldset>
 																			<form:select path="visits[${visitIndex.index}].selectedVisitType" cssClass="custom-select" id="visitType_${visitIndex.index+1}" onchange="visitTypeChanged(this.value, ${visitIndex.index+1});">
-																		        <form:option value="-" label="--Please Select"/>
+																		        <form:option value="0" label="--Please Select"/>
 										     									<form:options items="${visitTypeList}" itemValue="id" itemLabel="visitType"/>
 																		    </form:select>
 																</fieldset>													      

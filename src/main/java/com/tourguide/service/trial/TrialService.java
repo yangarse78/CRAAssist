@@ -11,4 +11,8 @@ public interface TrialService {
 	void save(Trial trial);
 
 	Trial getTrialById(Long id);
+
+	void saveOrUpdate(Trial trial);
+
+	void persist(Trial trial);
 }

@@ -6,9 +6,13 @@ import com.tourguide.model.Trial;
 
 public interface TrialDao {
 
-	   List<Trial> getList();
+	List<Trial> getList();
 
-	   void save(Trial trial);
+	void save(Trial trial);
 
-	   Trial getTrialById(Long id);
+	Trial getTrialById(Long id);
+
+	void saveOrUpdate(Trial trial);
+
+	void persist(Trial trial);
 }

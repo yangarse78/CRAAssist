@@ -25,4 +25,6 @@ public interface TrialVisitDefService {
 	List<IntervalType> getIntervalTypeList();
 
 	List<SiteVisitType> getSiteVisitTypeList();
+
+	void save(TrialVisitDef visit);
 }

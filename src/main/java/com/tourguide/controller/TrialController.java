@@ -59,11 +59,14 @@ public class TrialController {
     		final BindingResult result, final Model model, final RedirectAttributes redirectAttributes) {
  
         if (result.hasErrors()) {
+        	model.addAttribute("trial", trial);
             return "addTrial";
         }
         
         List<TrialVisitDef> visits = trial.getVisits();
         for(TrialVisitDef visit : visits) {
+        	visit.setTrial(trial);
+        	
             Long selectedIntervalType = visit.getSelectedIntervalType() != null ? visit.getSelectedIntervalType() : 0L;
             visit.setIntervalType(trialVisitDefService.getIntervalTypeById(selectedIntervalType));
      
@@ -77,7 +80,7 @@ public class TrialController {
             		visit.getTreatment(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
         }
         
-        trialService.save(trial);
+        trialService.persist(trial);
         redirectAttributes.addFlashAttribute("trial", trial);
         model.addAttribute("trial", trial);
         return "redirect:trialDashboard";

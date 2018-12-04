@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ public class Trial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
+	@Column(name = "ID")
 	private Long id;
 	
 	@Column(name = "TRIAL_NUM")
@@ -39,7 +41,7 @@ public class Trial {
 	@Column(name = "COMMENT")
 	private String comment;
 
-	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL)
     private List<TrialVisitDef> visits;
 	
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

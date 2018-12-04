@@ -19,4 +19,9 @@ public class TrialVisitDefDaoImpl extends AbstractDao<Long, TrialVisitDef> imple
 		TypedQuery<TrialVisitDef> query = getSession().createQuery("from TrialVisitDef");
 		return query.getResultList();
 	}
+
+	@Override
+	public void save(TrialVisitDef visit) {
+		save(visit);
+	}
 }

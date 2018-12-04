@@ -6,5 +6,7 @@ import com.tourguide.model.TrialVisitDef;
 
 public interface TrialVisitDefDao {
 
-	public List<TrialVisitDef> getList();
+	List<TrialVisitDef> getList();
+
+	void save(TrialVisitDef visit);
 }

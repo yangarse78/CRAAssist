@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 import com.tourguide.dao.trial.TrialDao;
 import com.tourguide.model.Trial;
 import com.tourguide.service.patient.PatientService;
+import com.tourguide.service.trial.visit.TrialVisitDefService;
 
 @Service
 public class TrialServiceImpl implements TrialService{
 	
 	@Autowired
 	private TrialDao trialDao;
-	
+
 	@Autowired
 	private PatientService patientService;
 
@@ -26,8 +27,18 @@ public class TrialServiceImpl implements TrialService{
 	}
 
 	@Transactional
+	public void persist(Trial trial) {
+		trialDao.persist(trial);
+	}
+	
+	@Transactional
 	public void save(Trial trial) {
 		trialDao.save(trial);
+	}
+	
+	@Transactional
+	public void saveOrUpdate(Trial trial) {
+		trialDao.saveOrUpdate(trial);
 	}
 
 	@Transactional
@@ -36,6 +47,10 @@ public class TrialServiceImpl implements TrialService{
 		trial.setPatients(patientService.getPerTrial(id));
 		return trial;
 	}
+
+
+
+
 	
 	
 

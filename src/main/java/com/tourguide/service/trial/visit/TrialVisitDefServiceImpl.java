@@ -34,11 +34,7 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	@Autowired
 	private SiteVisitTypeService siteVisitTypeService;
 	
-	
-	
-	
-	
-	
+		
 	
 	@Transactional
 	public List<TrialVisitDef> getList() {
@@ -46,7 +42,10 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	}
 
 	
-	
+	@Transactional
+	public void save(TrialVisitDef visit) {
+		trialVisitDefDao.save(visit);
+	}
 	
 	
 	@Override
@@ -83,6 +82,12 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	public List<SiteVisitType> getSiteVisitTypeList() {
 		return siteVisitTypeService.getList();
 	}
+
+
+
+
+
+
 
 	
 	

@@ -3,6 +3,7 @@ package com.tourguide.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,8 +50,8 @@ public class TrialVisitDef {
 	@OneToOne
 	private SiteVisitType siteVisitType;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "trial_id")
+	@ManyToOne(optional = false)
+	@JoinColumn(name="trial_id")
 	private Trial trial;
 	
 	
