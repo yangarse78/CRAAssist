@@ -10,8 +10,8 @@ public interface PatientDao {
 
 	List<Patient> getPerTrial(Long id);
 
-	void save(Patient patient);
+	void persist(Patient patient);
 
-	Patient getPatientById(Long id);
+	Patient getByKey(Long id);
 	
 }

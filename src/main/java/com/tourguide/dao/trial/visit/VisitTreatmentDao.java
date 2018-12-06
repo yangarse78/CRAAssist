@@ -8,4 +8,5 @@ public interface VisitTreatmentDao {
 
 	List<VisitTreatment> getList();
 	
+	VisitTreatment getByKey(Long id);
 }

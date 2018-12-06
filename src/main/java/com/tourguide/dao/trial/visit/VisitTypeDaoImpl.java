@@ -20,18 +20,5 @@ public class VisitTypeDaoImpl extends AbstractDao<Long, VisitType> implements Vi
 		return query.getResultList();
 	}
 
-
-	@Override
-	public VisitType getVisitTypeById(Long id) {
-		@SuppressWarnings("unchecked")
-		TypedQuery<VisitType> query = getSession().
-																createQuery("from VisitType v where v.id = :id")
-																.setParameter("id", id);
-		try {
-			return query.getSingleResult();
-		} catch (NoResultException nre) {
-			return null;
-		}
-	}
 	
 }

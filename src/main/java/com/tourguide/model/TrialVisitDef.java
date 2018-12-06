@@ -1,9 +1,7 @@
 package com.tourguide.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -27,6 +26,8 @@ public class TrialVisitDef {
 	private Long selectedIntervalType;
 	@Transient
 	private Long selectedSiteVisitType;
+	@Transient
+	private Long selectedVisitWindowType;
 	
 	
 	
@@ -43,16 +44,29 @@ public class TrialVisitDef {
 	
 	@Column(name = "TIME_INTERVAL")
 	private int interval;
+
+	@Column(name = "VISIT_ORDER")
+	private int order;
 	
 	@OneToOne
-	private IntervalType intervalType;
+	private TrialTimeUnit intervalType;
 
 	@OneToOne
 	private SiteVisitType siteVisitType;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(name="trial_id")
+	@JoinColumn(name = "trial_id")
 	private Trial trial;
+	
+	@Column(name = "VISIT_WIN")
+//	@Digits(fraction = 0, integer = 100)
+	private int visitWindow;
+	
+	@OneToOne
+	private TrialTimeUnit visitWindowType;
+	
+	
+	
 	
 	
 	public TrialVisitDef() {
@@ -125,11 +139,11 @@ public class TrialVisitDef {
 		this.interval = interval;
 	}
 
-	public IntervalType getIntervalType() {
+	public TrialTimeUnit getIntervalType() {
 		return intervalType;
 	}
 
-	public void setIntervalType(IntervalType intervalType) {
+	public void setIntervalType(TrialTimeUnit intervalType) {
 		this.intervalType = intervalType;
 	}
 
@@ -147,6 +161,38 @@ public class TrialVisitDef {
 
 	public void setTrial(Trial trial) {
 		this.trial = trial;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public int getVisitWindow() {
+		return visitWindow;
+	}
+
+	public void setVisitWindow(int visitWindow) {
+		this.visitWindow = visitWindow;
+	}
+
+	public Long getSelectedVisitWindowType() {
+		return selectedVisitWindowType;
+	}
+
+	public void setSelectedVisitWindowType(Long selectedVisitWindowType) {
+		this.selectedVisitWindowType = selectedVisitWindowType;
+	}
+
+	public TrialTimeUnit getVisitWindowType() {
+		return visitWindowType;
+	}
+
+	public void setVisitWindowType(TrialTimeUnit visitWindowType) {
+		this.visitWindowType = visitWindowType;
 	}
 	
 }

@@ -23,7 +23,7 @@ public class VisitTypeServiceImpl implements VisitTypeService {
 
 	@Transactional
 	public VisitType getVisitTypeById(Long id) {
-		return visitTypeDao.getVisitTypeById(id);
+		return visitTypeDao.getByKey(id);
 	}
 
 	

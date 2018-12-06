@@ -14,10 +14,16 @@ import com.tourguide.model.VisitTreatment;
 public class VisitTreatmentServiceImpl implements VisitTreatmentService {
 
 	@Autowired
-	private VisitTreatmentDao visitTreatmentDao; 
-	
+	private VisitTreatmentDao visitTreatmentDao;
+
 	@Transactional
 	public List<VisitTreatment> getList() {
 		return visitTreatmentDao.getList();
 	}
+
+	@Transactional
+	public VisitTreatment getTreatmentById(Long id) {
+		return visitTreatmentDao.getByKey(id);
+	}
+
 }

@@ -1,13 +1,14 @@
 package com.tourguide.dao.patient;
 
 import java.util.List;
+
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
 import com.tourguide.dao.AbstractDao;
-import com.tourguide.dao.trial.TrialDaoImpl;
 import com.tourguide.model.Patient;
 
 @Repository
@@ -29,16 +30,6 @@ public class PatientDaoImpl extends AbstractDao<Long, Patient> implements Patien
 		return query.getResultList();
 	}
 
-	@Override
-	public void save(Patient patient) {
-		logger.debug("Saving new trial.");
-		saveOrUpdate(patient);
-		logger.debug("New patient Id: {}.", patient.getId());
-	}
 
-	@Override
-	public Patient getPatientById(Long id) {
-		return getByKey(id);
-	}
 
 }

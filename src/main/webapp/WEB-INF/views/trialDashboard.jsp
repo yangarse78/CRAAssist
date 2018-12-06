@@ -16,38 +16,50 @@
     	
         <div class="container">
 			     <h2>Trial Dashboard</h2>
-			     	<div class="row">
-						<label class="col-sm-2">Trial Number</label>
-						<div class="col-sm-10">${trial.trialNum}</div>
-					</div>
-			     	<div class="row">
-						<label class="col-sm-2">Trial Name</label>
-						<div class="col-sm-10">${trial.name}</div>
-					</div>
-			     	<div class="row">
-						<label class="col-sm-2">Number Of Visits</label>
-						<div class="col-sm-10">${trial.numOfVisits}</div>
-					</div>
-	<%-- 		     	<div class="row">
-						<label class="col-sm-2">Interval</label>
-						<div class="col-sm-10">
-							<span class="">${trial.interval}</span>
-							<span class="">${trial.intervalType.intervalType}</span>
+			     <div class="row">
+			     	<div class="col-6">
+				     	<div class="row">
+							<label class="col-sm-4">Trial Number</label>
+							<div class="col-sm-8">${trial.trialNum}</div>
 						</div>
+				     	<div class="row">
+							<label class="col-sm-4">Trial Name</label>
+							<div class="col-sm-8">${trial.name}</div>
+						</div>
+				     	<div class="row">
+							<label class="col-sm-4">Number Of Visits</label>
+							<div class="col-sm-8">${trial.numOfVisits}</div>
+						</div>
+				     	<div class="row">
+							<label class="col-sm-4">Comments</label>
+							<div class="col-sm-8">${trial.comment}</div>
+						</div>	
 					</div>
-			     	<div class="row">
-						<label class="col-sm-2">Visit Type</label>
-						<div class="col-sm-10">${trial.visitType.visitType}</div>
-					</div>
-			     	<div class="row">
-						<label class="col-sm-2">Site Visit Type</label>
-						<div class="col-sm-10">${trial.siteVisitType.siteVisitType}</div>
-					</div> --%>
-			     	<div class="row">
-						<label class="col-sm-2">Comments</label>
-						<div class="col-sm-10">${trial.comment}</div>
-					</div>			     
-			     
+					<div class="col-6">
+						<table class="table table-striped">
+							  <thead>
+							    <tr>
+							      <th scope="col">#</th>
+							      <th scope="col">Treatment</th>
+							      <th scope="col">Interval</th>
+							      <th scope="col">Visit Type</th>
+							      <th scope="col">Site Visit Type</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+								  	<c:forEach items="${trial.visits}" var="visit" varStatus="visitIndex">
+										    <tr>
+										      <th scope="row">${visit.order}</th>
+										      <td>${visit.treatment.treatment}</td>
+										      <td><span>${visit.interval}</span> <span>${visit.trialTimeUnit.name}</span></td>
+										      <td>${visit.visitType.visitType}</td>
+										      <td>${visit.siteVisitType.siteVisitType}</td>
+										    </tr>
+								    </c:forEach>
+							  </tbody>
+						</table>						
+					</div>		     
+			     </div>
 			     <div class="row">
 								<div class="col">
 										<table class="table table-striped">

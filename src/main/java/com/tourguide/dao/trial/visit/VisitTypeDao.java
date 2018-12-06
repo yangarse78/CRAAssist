@@ -8,5 +8,5 @@ public interface VisitTypeDao {
 
 	List<VisitType> getList();
 
-	VisitType getVisitTypeById(Long id);
+	VisitType getByKey(Long id);
 }

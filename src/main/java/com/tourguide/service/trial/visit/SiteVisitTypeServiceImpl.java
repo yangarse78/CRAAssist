@@ -25,7 +25,7 @@ public class SiteVisitTypeServiceImpl implements SiteVisitTypeService {
 
 	@Transactional
 	public SiteVisitType getSiteVisitTypeById(Long id) {
-		return siteVisitTypeDao.getSiteVisitTypeById(id);
+		return siteVisitTypeDao.getByKey(id);
 	}
 
 }

@@ -7,5 +7,7 @@ import com.tourguide.model.VisitTreatment;
 public interface VisitTreatmentService {
 
 	List<VisitTreatment> getList();
+
+	VisitTreatment getTreatmentById(Long selectedTreatment);
 	
 }

@@ -9,10 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,7 +29,7 @@ public class Trial {
 	private Long id;
 	
 	@Column(name = "TRIAL_NUM")
-	@NotEmpty
+	@NotEmpty(message="Please Enter Trial number")
 	private String trialNum;
 	
 	@Column(name = "NAME")
@@ -36,9 +37,11 @@ public class Trial {
 	
 	@Column(name = "NUM_OF_VISITS")
 	@NotNull(message = "Number of visits cannot be empty")
+	@Digits(fraction = 0, integer = 100)
 	private int numOfVisits;
 	
 	@Column(name = "COMMENT")
+	@Size(max = 255, message = "{trial.comment.too.long}")
 	private String comment;
 
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL)
@@ -47,7 +50,7 @@ public class Trial {
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Patient> patients;
 	
-
+	
 	public Trial() {}
 	
 
@@ -106,6 +109,5 @@ public class Trial {
 	public void setPatients(List<Patient> patients) {
 		this.patients = patients;
 	}
-
 	
 }

@@ -26,35 +26,13 @@ public class TrialDaoImpl extends AbstractDao<Long, Trial> implements TrialDao {
 	@Override
 	public void persist(Trial trial) {
 		logger.debug("Persist - Saving new trial.");
-		persist(trial);
-		Long id = trial.getId();
-		//TODO change return type of the method
-		logger.debug("New trial Id: {}.", id);
-	}
-	
-	@Override
-	public void save(Trial trial) {
-		logger.debug("Saving new trial.");
-		save(trial);
-		Long id = trial.getId();
-		//TODO change return type of the method
-		logger.debug("New trial Id: {}.", id);
-	}
-	
-	@Override
-	public void saveOrUpdate(Trial trial) {
-		logger.debug("Saving new trial.");
-		saveOrUpdate(trial);
+		super.persist(trial);
 		Long id = trial.getId();
 		//TODO change return type of the method
 		logger.debug("New trial Id: {}.", id);
 	}
 
-	@Override
-	public Trial getTrialById(Long id) {
-		return getByKey(id);
-	}
-	
-	
+
+
 	
 }

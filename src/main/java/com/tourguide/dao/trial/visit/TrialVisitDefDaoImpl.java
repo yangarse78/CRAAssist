@@ -21,7 +21,9 @@ public class TrialVisitDefDaoImpl extends AbstractDao<Long, TrialVisitDef> imple
 	}
 
 	@Override
-	public void save(TrialVisitDef visit) {
-		save(visit);
+	public List<TrialVisitDef> getPerTrial(Long id) {
+		@SuppressWarnings("unchecked")
+		TypedQuery<TrialVisitDef> query = getSession().createQuery("from TrialVisitDef t where t.trial.id=:trial_id ").setParameter("trial_id",	 id);
+		return query.getResultList();
 	}
 }

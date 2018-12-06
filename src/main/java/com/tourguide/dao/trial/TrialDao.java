@@ -8,9 +8,7 @@ public interface TrialDao {
 
 	List<Trial> getList();
 
-	void save(Trial trial);
-
-	Trial getTrialById(Long id);
+	Trial getByKey(Long id);
 
 	void saveOrUpdate(Trial trial);
 

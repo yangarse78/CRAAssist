@@ -20,6 +20,9 @@ public class TrialServiceImpl implements TrialService{
 
 	@Autowired
 	private PatientService patientService;
+	
+	@Autowired
+	private TrialVisitDefService trialVisitDefService;
 
 	@Transactional
 	public List<Trial> getList() {
@@ -33,7 +36,7 @@ public class TrialServiceImpl implements TrialService{
 	
 	@Transactional
 	public void save(Trial trial) {
-		trialDao.save(trial);
+		trialDao.persist(trial);
 	}
 	
 	@Transactional
@@ -43,8 +46,9 @@ public class TrialServiceImpl implements TrialService{
 
 	@Transactional
 	public Trial getTrialById(Long id) {
-		Trial trial = trialDao.getTrialById(id);
+		Trial trial = trialDao.getByKey(id);
 		trial.setPatients(patientService.getPerTrial(id));
+		trial.setVisits(trialVisitDefService.getPerTrial(id));
 		return trial;
 	}
 

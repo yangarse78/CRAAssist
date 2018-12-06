@@ -50,13 +50,14 @@ public class Patient {
 	private String email;
 	
 	@Column(name = "SCREENING_DATE")
-//	@NotEmpty(message = "Screening date cannot be empty")
 	@DateTimeFormat(pattern = "dd/mm/yyyy")
 	private Date screeningDate;
 	
 	@Column(name = "COMMENT")
 	private String comment;
 
+	
+	
 	@Transient
 	private Long selectedTrial;
 	

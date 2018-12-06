@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tourguide.dao.trial.visit.TrialVisitDefDao;
-import com.tourguide.model.IntervalType;
 import com.tourguide.model.SiteVisitType;
+import com.tourguide.model.TrialTimeUnit;
 import com.tourguide.model.TrialVisitDef;
 import com.tourguide.model.VisitTreatment;
 import com.tourguide.model.VisitType;
@@ -23,10 +23,10 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	
 	
 	@Autowired
-	private VisitTreatmentService visitTreatmentTypeService;
+	private VisitTreatmentService visitTreatmentService;
 	
 	@Autowired
-	private IntervalTypeService intervalTypeService;
+	private TrialTimeUnitService trialTimeUnitService;
 	
 	@Autowired
 	private VisitTypeService visitTypeService;
@@ -34,8 +34,36 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	@Autowired
 	private SiteVisitTypeService siteVisitTypeService;
 	
-		
+
 	
+	
+	
+	@Override
+	public List<VisitTreatment> getTreatmentList() {
+		return visitTreatmentService.getList();
+	}
+
+	@Override
+	public List<VisitType> getVisitTypeList() {
+		return visitTypeService.getList();
+	}
+
+	@Override
+	public List<TrialTimeUnit> getTrialTimeUnitList() {
+		return trialTimeUnitService.getList();
+	}
+
+	@Override
+	public List<SiteVisitType> getSiteVisitTypeList() {
+		return siteVisitTypeService.getList();
+	}
+
+
+	@Override
+	public List<TrialVisitDef> getPerTrial(Long id) {
+		return trialVisitDefDao.getPerTrial(id);
+	}
+
 	@Transactional
 	public List<TrialVisitDef> getList() {
 		return trialVisitDefDao.getList();
@@ -44,13 +72,12 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	
 	@Transactional
 	public void save(TrialVisitDef visit) {
-		trialVisitDefDao.save(visit);
+		trialVisitDefDao.persist(visit);
 	}
 	
-	
 	@Override
-	public IntervalType getIntervalTypeById(Long selectedIntervalType) {
-		return intervalTypeService.getIntervalTypeById(selectedIntervalType);
+	public TrialTimeUnit getTrialTimeUnitById(Long selectedTrialTimeUnit) {
+		return trialTimeUnitService.getTrialTimeUnitById(selectedTrialTimeUnit);
 	}
 
 	@Override
@@ -64,24 +91,12 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 	}
 
 	@Override
-	public List<VisitTreatment> getTreatmentList() {
-		return visitTreatmentTypeService.getList();
+	public VisitTreatment getTreatmentById(Long selectedTreatment) {
+		return visitTreatmentService.getTreatmentById(selectedTreatment);
 	}
 
-	@Override
-	public List<VisitType> getVisitTypeList() {
-		return visitTypeService.getList();
-	}
 
-	@Override
-	public List<IntervalType> getIntervalTypeList() {
-		return intervalTypeService.getList();
-	}
 
-	@Override
-	public List<SiteVisitType> getSiteVisitTypeList() {
-		return siteVisitTypeService.getList();
-	}
 
 
 

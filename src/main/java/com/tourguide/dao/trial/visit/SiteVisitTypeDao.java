@@ -8,5 +8,5 @@ public interface SiteVisitTypeDao {
 
 	List<SiteVisitType> getList();
 
-	SiteVisitType getSiteVisitTypeById(Long id);
+	SiteVisitType getByKey(Long id);
 }

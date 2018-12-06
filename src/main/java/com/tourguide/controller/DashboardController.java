@@ -11,10 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.tourguide.model.IntervalType;
 import com.tourguide.model.Patient;
 import com.tourguide.model.SiteVisitType;
 import com.tourguide.model.Trial;
+import com.tourguide.model.TrialTimeUnit;
 import com.tourguide.model.VisitTreatment;
 import com.tourguide.model.VisitType;
 import com.tourguide.service.trial.TrialService;
@@ -47,12 +47,12 @@ public class DashboardController {
     	logger.debug("Loading Add Trial page");
     	List<VisitTreatment> treatmentsList = trialVisitDefService.getTreatmentList();
     	List<VisitType> visitTypeList = trialVisitDefService.getVisitTypeList();
-    	List<IntervalType> intervalTypeList = trialVisitDefService.getIntervalTypeList();
+    	List<TrialTimeUnit> trialTimeUnitList = trialVisitDefService.getTrialTimeUnitList();
     	List<SiteVisitType> siteVisitTypeList = trialVisitDefService.getSiteVisitTypeList();
     	
     	model.addAttribute("treatmentsList", treatmentsList);
     	model.addAttribute("visitTypeList", visitTypeList);
-    	model.addAttribute("intervalTypeList", intervalTypeList);
+    	model.addAttribute("trialTimeUnitList", trialTimeUnitList);
     	model.addAttribute("siteVisitTypeList", siteVisitTypeList);
         return "addTrial";
     }

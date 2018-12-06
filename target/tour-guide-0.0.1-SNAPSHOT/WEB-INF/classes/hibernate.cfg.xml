@@ -31,9 +31,11 @@
         <property name="hibernate.c3p0.timeout">1800</property>
         <property name="hibernate.c3p0.max_statements">150</property>
         
+         <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
         
     <mapping class="com.tourguide.model.User"/>
-    <mapping class="com.tourguide.model.IntervalType"/>
+    <mapping class="com.tourguide.model.TrialTimeUnit"/>
     <mapping class="com.tourguide.model.VisitType"/>
     <mapping class="com.tourguide.model.SiteVisitType"/>
     <mapping class="com.tourguide.model.Trial"/>

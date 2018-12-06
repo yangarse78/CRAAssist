@@ -8,5 +8,7 @@ public interface TrialVisitDefDao {
 
 	List<TrialVisitDef> getList();
 
-	void save(TrialVisitDef visit);
+	void persist(TrialVisitDef visit);
+
+	List<TrialVisitDef> getPerTrial(Long id);
 }
