@@ -42,6 +42,7 @@
 							      <th scope="col">#</th>
 							      <th scope="col">Treatment</th>
 							      <th scope="col">Interval</th>
+							      <th scope="col">+/-</th>
 							      <th scope="col">Visit Type</th>
 							      <th scope="col">Site Visit Type</th>
 							    </tr>
@@ -51,7 +52,8 @@
 										    <tr>
 										      <th scope="row">${visit.order}</th>
 										      <td>${visit.treatment.treatment}</td>
-										      <td><span>${visit.interval}</span> <span>${visit.trialTimeUnit.name}</span></td>
+										      <td><span>${visit.interval}</span> <span>${visit.intervalType.name}</span></td>
+										      <td><span>${visit.visitWindow}</span> <span>${visit.visitWindowType.name}</span></td>
 										      <td>${visit.visitType.visitType}</td>
 										      <td>${visit.siteVisitType.siteVisitType}</td>
 										    </tr>

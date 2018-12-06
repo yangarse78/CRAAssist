@@ -28,8 +28,7 @@ public class TrialVisitDef {
 	private Long selectedSiteVisitType;
 	@Transient
 	private Long selectedVisitWindowType;
-	
-	
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
@@ -58,14 +57,11 @@ public class TrialVisitDef {
 	@JoinColumn(name = "trial_id")
 	private Trial trial;
 	
-	@Column(name = "VISIT_WIN")
-//	@Digits(fraction = 0, integer = 100)
-	private int visitWindow;
-	
 	@OneToOne
 	private TrialTimeUnit visitWindowType;
 	
-	
+	@Column(name = "VISIT_WINDOW")
+	private int visitWindow;
 	
 	
 	
