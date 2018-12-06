@@ -1,5 +1,6 @@
 package com.tourguide.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -50,6 +51,8 @@ public class Trial {
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Patient> patients;
 	
+	@Column(name = "CREATION_DATE")
+	private Date creationDate;
 	
 	public Trial() {}
 	
@@ -108,6 +111,14 @@ public class Trial {
 
 	public void setPatients(List<Patient> patients) {
 		this.patients = patients;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 }

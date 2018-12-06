@@ -1,6 +1,7 @@
 package com.tourguide.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,6 +86,7 @@ public class TrialController {
 					visit.getSelectedTreatment(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
 		}
 
+		trial.setCreationDate(new Date());
 		trialService.persist(trial);
 		redirectAttributes.addFlashAttribute("trial", trial);
 		model.addAttribute("trial", trial);

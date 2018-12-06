@@ -22,6 +22,7 @@
 										      <th scope="col">Trial Number</th>
 										      <th scope="col">Name</th>
 										      <th scope="col">Number of Visits</th>
+										      <th scope="col">Creation Date</th>
 										      <th scope="col">Action</th>
 										    </tr>
 										  </thead>
@@ -32,6 +33,7 @@
 													      <td>${item.trialNum}</td>
 													      <td>${item.name}</td>
 													      <td>${item.numOfVisits}</td>
+													      <td>${item.creationDate}</td>
 													      <td>
 													      		<spring:url value="/trial/${item.id}" var="viewUrl" />
 				  												<spring:url value="/trial/${item.id}/update" var="updateUrl" />
