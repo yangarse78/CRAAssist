@@ -1,17 +1,22 @@
 package com.tourguide.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -19,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class TrialVisitDef {
 	
 	@Transient
-	private Long selectedTreatment;
+	private Long []  selectedTreatmentsList;
 	@Transient
 	private Long selectedVisitType;
 	@Transient
@@ -35,8 +40,15 @@ public class TrialVisitDef {
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
-	@OneToOne
-	private VisitTreatment treatment;
+//	@OneToOne
+//	private VisitTreatment treatment;
+	
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+    		   name="treatment_per_visit",
+    		   joinColumns=@JoinColumn(name="trial_visit_def_id", referencedColumnName="ID"),
+    		   inverseJoinColumns=@JoinColumn(name="treatment_id", referencedColumnName="ID"))
+    private List<VisitTreatment> treatments;
 	
 	@OneToOne
 	private VisitType visitType;
@@ -68,12 +80,12 @@ public class TrialVisitDef {
 	public TrialVisitDef() {
 	}
 
-	public Long getSelectedTreatment() {
-		return selectedTreatment;
+	public Long[] getSelectedTreatmentsList() {
+		return selectedTreatmentsList;
 	}
 
-	public void setSelectedTreatment(Long selectedTreatment) {
-		this.selectedTreatment = selectedTreatment;
+	public void setSelectedTreatmentsList(Long[] selectedTreatmentsList) {
+		this.selectedTreatmentsList = selectedTreatmentsList;
 	}
 
 	public Long getSelectedVisitType() {
@@ -111,13 +123,13 @@ public class TrialVisitDef {
 		this.id = id;
 	}
 
-	public VisitTreatment getTreatment() {
-		return treatment;
-	}
-
-	public void setTreatment(VisitTreatment treatment) {
-		this.treatment = treatment;
-	}
+//	public VisitTreatment getTreatment() {
+//		return treatment;
+//	}
+//
+//	public void setTreatment(VisitTreatment treatment) {
+//		this.treatment = treatment;
+//	}
 
 	public VisitType getVisitType() {
 		return visitType;
@@ -190,5 +202,12 @@ public class TrialVisitDef {
 	public void setVisitWindowType(TrialTimeUnit visitWindowType) {
 		this.visitWindowType = visitWindowType;
 	}
-	
+
+	public List<VisitTreatment> getTreatments() {
+		return treatments;
+	}
+
+	public void setTreatments(List<VisitTreatment> treatments) {
+		this.treatments = treatments;
+	}
 }

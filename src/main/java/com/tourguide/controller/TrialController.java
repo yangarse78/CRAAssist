@@ -76,14 +76,21 @@ public class TrialController {
 			Long selectedSiteVisitType = visit.getSelectedSiteVisitType() != null ? visit.getSelectedSiteVisitType() : 0L;
 			visit.setSiteVisitType(trialVisitDefService.getSiteVisitTypeById(selectedSiteVisitType));
 
-			Long selectedTreatment = visit.getSelectedTreatment() != null ? visit.getSelectedTreatment() : 0L;
-			visit.setTreatment(trialVisitDefService.getTreatmentById(selectedTreatment));
+//			Long selectedTreatment = visit.getSelectedTreatment() != null ? visit.getSelectedTreatment() : 0L;
+//			visit.setTreatment(trialVisitDefService.getTreatmentById(selectedTreatment));
+			Long[] selectedTreatmentsList = visit.getSelectedTreatmentsList();
+			List<VisitTreatment> treatmentsList = new ArrayList<>();
+			for(Long selectedTreatId : selectedTreatmentsList) {
+				VisitTreatment treatment = trialVisitDefService.getTreatmentById(selectedTreatId);
+				treatmentsList.add(treatment);
+			}
+			visit.setTreatments(treatmentsList);
 			
 			Long selectedVisitWinType = visit.getSelectedVisitWindowType() != null ? visit.getSelectedVisitWindowType() : 0L;
 			visit.setVisitWindowType(trialVisitDefService.getTrialTimeUnitById(selectedVisitWinType));			
 
 			logger.debug("Visit: {} SelectedIntervalType: {}, selectedVisitType: {}, selectedSiteVisitType: {} \n",
-					visit.getSelectedTreatment(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
+					visit.getOrder(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
 		}
 
 		trial.setCreationDate(new Date());

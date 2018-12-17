@@ -1,6 +1,7 @@
 package com.tourguide.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -56,6 +58,9 @@ public class Patient {
 	@Column(name = "COMMENT")
 	private String comment;
 
+	
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<PatientVisit> visits;
 	
 	
 	@Transient
@@ -142,6 +147,14 @@ public class Patient {
 
 	public void setSelectedTrial(Long selectedTrial) {
 		this.selectedTrial = selectedTrial;
+	}
+
+	public List<PatientVisit> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<PatientVisit> visits) {
+		this.visits = visits;
 	}
 
 }

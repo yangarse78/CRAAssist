@@ -3,6 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" 		uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 	<c:set var = "path" scope = "session" value = "../"/>
@@ -46,12 +47,17 @@
 							      <th scope="col">Visit Type</th>
 							      <th scope="col">Site Visit Type</th>
 							    </tr>
-							  </thead>
+							  </thead>	
 							  <tbody>
 								  	<c:forEach items="${trial.visits}" var="visit" varStatus="visitIndex">
 										    <tr>
 										      <th scope="row">${visit.order}</th>
-										      <td>${visit.treatment.treatment}</td>
+										      <td>
+											      <c:forEach items="${visit.treatments}" var="treatment" varStatus="treatmentIndex">
+											      		<c:out value="${treatment.treatment}"/>
+											      		<c:if test="${treatmentIndex.index+1 < visit.treatments.size()}">,</c:if> 
+											      </c:forEach>
+										      </td>
 										      <td><span>${visit.interval}</span> <span>${visit.intervalType.name}</span></td>
 										      <td><span>${visit.visitWindow}</span> <span>${visit.visitWindowType.name}</span></td>
 										      <td>${visit.visitType.visitType}</td>

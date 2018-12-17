@@ -45,7 +45,7 @@ public class Trial {
 	@Size(max = 255, message = "{trial.comment.too.long}")
 	private String comment;
 
-	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TrialVisitDef> visits;
 	
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

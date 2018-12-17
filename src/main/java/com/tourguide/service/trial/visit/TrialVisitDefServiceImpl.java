@@ -61,7 +61,7 @@ public class TrialVisitDefServiceImpl implements TrialVisitDefService {
 
 	@Override
 	public List<TrialVisitDef> getPerTrial(Long id) {
-		return trialVisitDefDao.getPerTrial(id);
+		return  trialVisitDefDao.getPerTrial(id); 
 	}
 
 	@Transactional

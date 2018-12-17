@@ -15,6 +15,7 @@ public class VisitTreatment {
 	@Column(name = "TREATMENT")
 	private String treatment;
 
+	
 	public VisitTreatment() {
 	}
 
@@ -33,4 +34,5 @@ public class VisitTreatment {
 	public void setTreatment(String treatment) {
 		this.treatment = treatment;
 	}
+
 }

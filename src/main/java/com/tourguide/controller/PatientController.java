@@ -1,5 +1,9 @@
 package com.tourguide.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tourguide.model.Patient;
+import com.tourguide.model.PatientVisit;
 import com.tourguide.model.Trial;
+import com.tourguide.model.TrialVisitDef;
 import com.tourguide.service.patient.PatientService;
 import com.tourguide.service.trial.TrialService;
 
@@ -54,12 +60,70 @@ public class PatientController {
         }
         
         Trial trial = trialService.getTrialById(patient.getSelectedTrial());
+        updatePatientVisits(patient, trial.getVisits());
         patient.setTrial(trial);
         
         patientService.save(patient);
         redirectAttributes.addFlashAttribute("trial", trial);
         return "redirect:/trial/trialDashboard";
     }
+
+	private void updatePatientVisits(Patient patient, List<TrialVisitDef> defVisitList) {
+		List<PatientVisit> visits = new ArrayList<PatientVisit>();
+        visits.add(inializeFirstPatientVisit(patient));
+        
+        PatientVisit lastVisit = visits.get(0);
+        for(int i = 1; i < defVisitList.size() - 1; i++) {
+        	TrialVisitDef defVisitDef  = defVisitList.get(i);
+        	PatientVisit visit = new PatientVisit();
+        	Date visitDate = addTimeInterval(defVisitDef, lastVisit.getVisitDate());
+        	visit.setVisitDate(visitDate);    
+        	Date afterDate = addTimeInterval(defVisitDef, visitDate);
+        	visit.setWindowAfter(afterDate);
+        	Date beforeDate = subtractTimeInterval(defVisitDef, visitDate);
+        	visit.setWindowBefore(beforeDate);
+        	visits.add(visit);
+        	lastVisit = visit;
+        }
+        patient.setVisits(visits);
+	}
+    
+    private Date addTimeInterval(TrialVisitDef defVisitDef, Date lastVisitDate) {
+    	int daysToAdd;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisitDef.getIntervalType().getId())){
+    		daysToAdd = defVisitDef.getInterval()*7;
+    	} else {
+    		daysToAdd = defVisitDef.getInterval();
+    	}
+		return addDays(lastVisitDate, daysToAdd);
+    }
+    
+    private Date addDays(Date date, int days){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
+    
+    private Date subtractTimeInterval(TrialVisitDef defVisitDef, Date lastVisitDate) {
+    	int daysToSubtract;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisitDef.getIntervalType().getId())){
+    		daysToSubtract = defVisitDef.getInterval()*7;
+    	} else {
+    		daysToSubtract = defVisitDef.getInterval();
+    	}
+    	daysToSubtract *= -1;
+		return addDays(lastVisitDate, daysToSubtract);
+    }
+   
+    
+	private PatientVisit inializeFirstPatientVisit(Patient patient) {
+		PatientVisit visit = new PatientVisit();
+    	visit.setVisitDate(patient.getScreeningDate());
+    	visit.setWindowBefore(patient.getScreeningDate());
+    	visit.setWindowAfter(patient.getScreeningDate());
+    	return visit;
+	}
     
     @GetMapping("/patientlDashboard")
     public String openPatientDashboard(@ModelAttribute("patient") @Valid Patient patient, 
