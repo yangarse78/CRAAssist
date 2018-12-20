@@ -9,16 +9,27 @@
 	<c:set var = "path" scope = "session" value = "../"/>
     <jsp:include page="headIncludes.jsp" />
     
-    
+    <style type="text/css">
+    	.randImg{
+    		background-image: url('../images/checked40x40.png');
+    		height: 40px;
+    		margin-left: -8%;
+    		background-repeat: no-repeat;
+    	}
+    	.space { margin:0; padding:0; height:50px; }
+    </style>
     
     <body>
     	<jsp:include page="navBar.jsp" />
     	
     	
         <div class="container">
-			     <h2>Trial Dashboard</h2>
-			     <div class="row">
-			     	<div class="col-6">
+			     <div class="row" style="max-height: 250px;overflow: auto;">
+			     
+			     	<div class="col-4">
+				     	<div class="row">
+				     		<label class="col-sm-12"><h2>Trial Dashboard</h2></label>
+				     	</div>
 				     	<div class="row">
 							<label class="col-sm-4">Trial Number</label>
 							<div class="col-sm-8">${trial.trialNum}</div>
@@ -36,8 +47,8 @@
 							<div class="col-sm-8">${trial.comment}</div>
 						</div>	
 					</div>
-					<div class="col-6">
-						<table class="table table-striped">
+					<div class="col-8">
+						<table class="table table-sm">
 							  <thead>
 							    <tr>
 							      <th scope="col">#</th>
@@ -46,13 +57,14 @@
 							      <th scope="col">+/-</th>
 							      <th scope="col">Visit Type</th>
 							      <th scope="col">Site Visit Type</th>
+							      <th scope="col">Rand</th>
 							    </tr>
 							  </thead>	
 							  <tbody>
 								  	<c:forEach items="${trial.visits}" var="visit" varStatus="visitIndex">
 										    <tr>
 										      <th scope="row">${visit.order}</th>
-										      <td>
+										      <td >
 											      <c:forEach items="${visit.treatments}" var="treatment" varStatus="treatmentIndex">
 											      		<c:out value="${treatment.treatment}"/>
 											      		<c:if test="${treatmentIndex.index+1 < visit.treatments.size()}">,</c:if> 
@@ -62,12 +74,21 @@
 										      <td><span>${visit.visitWindow}</span> <span>${visit.visitWindowType.name}</span></td>
 										      <td>${visit.visitType.visitType}</td>
 										      <td>${visit.siteVisitType.siteVisitType}</td>
+										      <td>
+										      			<c:if test="${visit.isRandomization}">
+										      				<div  style="text-align: center;"> 
+										      					<!-- <img src="../images/checked.png"  style="max-width: 44px"> -->
+										      					<div class="randImg"></div>
+										      				</div>
+										      			</c:if>
+										      </td>
 										    </tr>
 								    </c:forEach>
 							  </tbody>
 						</table>						
 					</div>		     
 			     </div>
+			     <div class="space"></div>
 			     <div class="row">
 								<div class="col">
 										<table class="table table-striped">
@@ -86,7 +107,7 @@
 										  <tbody>
 											  	<c:forEach items="${trial.patients}" var="patient" varStatus="patientIndex">
 													    <tr>
-													      <th scope="row">${patientIndex.index}</th>
+													      <th scope="row">${patientIndex.index +1}</th>
 													      <td>${patient.subjectId}</td>
 													      <td>${patient.firstName}</td>
 													      <td>${patient.lastName}</td>

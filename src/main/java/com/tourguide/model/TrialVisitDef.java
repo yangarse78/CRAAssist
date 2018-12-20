@@ -75,6 +75,8 @@ public class TrialVisitDef {
 	@Column(name = "VISIT_WINDOW")
 	private int visitWindow;
 	
+	@Column(name = "RAND")
+	private Boolean isRandomization;
 	
 	
 	public TrialVisitDef() {
@@ -210,4 +212,14 @@ public class TrialVisitDef {
 	public void setTreatments(List<VisitTreatment> treatments) {
 		this.treatments = treatments;
 	}
+
+	public Boolean getIsRandomization() {
+		return isRandomization;
+	}
+
+	public void setIsRandomization(Boolean isRandomization) {
+		this.isRandomization = isRandomization;
+	}
+	
+	
 }

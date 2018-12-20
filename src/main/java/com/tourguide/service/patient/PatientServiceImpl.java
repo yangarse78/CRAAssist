@@ -28,13 +28,11 @@ public class PatientServiceImpl implements PatientService{
 	}
 
 	@Transactional
-	@Override
-	public void save(Patient patient) {
+	public void persist(Patient patient) {
 		patientDao.persist(patient);
 	}
 
 	@Transactional
-	@Override
 	public Patient getPatientById(Long id) {
 		return patientDao.getByKey(id);
 	}

@@ -30,6 +30,15 @@ public class PatientDaoImpl extends AbstractDao<Long, Patient> implements Patien
 		return query.getResultList();
 	}
 
+	
+	@Override
+	public void persist(Patient patient) {
+		logger.debug("Persist - Saving new trial.");
+		super.persist(patient);
+		Long id = patient.getId();
+		//TODO change return type of the method
+		logger.debug("New trial Id: {}.", id);
+	}
 
 
 }

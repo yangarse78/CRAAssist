@@ -60,42 +60,48 @@ public class PatientController {
         }
         
         Trial trial = trialService.getTrialById(patient.getSelectedTrial());
-        updatePatientVisits(patient, trial.getVisits());
         patient.setTrial(trial);
+        updatePatientVisits(patient);
         
-        patientService.save(patient);
+        patientService.persist(patient);
         redirectAttributes.addFlashAttribute("trial", trial);
         return "redirect:/trial/trialDashboard";
     }
 
-	private void updatePatientVisits(Patient patient, List<TrialVisitDef> defVisitList) {
+	private void updatePatientVisits(Patient patient) {
+		List<TrialVisitDef> defVisitList = patient.getTrial().getVisits();
 		List<PatientVisit> visits = new ArrayList<PatientVisit>();
-        visits.add(inializeFirstPatientVisit(patient));
+		PatientVisit firstVisit = inializeFirstPatientVisit(patient, patient.getTrial().getFirstVisit());
+		
+		int firstInterval = firstVisit.getDefVisit().getInterval();
+        visits.add(firstVisit);
         
-        PatientVisit lastVisit = visits.get(0);
+        Date randomization = addDays(firstVisit.getVisitDate(), Math.abs(firstInterval));
+        
+        //TrialVisitDef randomizationVisitDef = patient.getTrial().getRandomizationVisit();
         for(int i = 1; i < defVisitList.size() - 1; i++) {
-        	TrialVisitDef defVisitDef  = defVisitList.get(i);
+        	TrialVisitDef defVisit  = defVisitList.get(i);
         	PatientVisit visit = new PatientVisit();
-        	Date visitDate = addTimeInterval(defVisitDef, lastVisit.getVisitDate());
+        	visit.setPatient(patient);
+        	Date visitDate = addTimeInterval(defVisit, randomization);
         	visit.setVisitDate(visitDate);    
-        	Date afterDate = addTimeInterval(defVisitDef, visitDate);
+        	Date afterDate = addTimeInterval(defVisit, visitDate);
         	visit.setWindowAfter(afterDate);
-        	Date beforeDate = subtractTimeInterval(defVisitDef, visitDate);
+        	Date beforeDate = subtractTimeInterval(defVisit, visitDate);
         	visit.setWindowBefore(beforeDate);
         	visits.add(visit);
-        	lastVisit = visit;
         }
         patient.setVisits(visits);
 	}
     
-    private Date addTimeInterval(TrialVisitDef defVisitDef, Date lastVisitDate) {
+    private Date addTimeInterval(TrialVisitDef defVisitDef, Date randomizationDate) {
     	int daysToAdd;
     	if(TrialTimeUnitType.WEEKS.equals(defVisitDef.getIntervalType().getId())){
     		daysToAdd = defVisitDef.getInterval()*7;
     	} else {
     		daysToAdd = defVisitDef.getInterval();
     	}
-		return addDays(lastVisitDate, daysToAdd);
+		return addDays(randomizationDate, daysToAdd);
     }
     
     private Date addDays(Date date, int days){
@@ -117,11 +123,13 @@ public class PatientController {
     }
    
     
-	private PatientVisit inializeFirstPatientVisit(Patient patient) {
+	private PatientVisit inializeFirstPatientVisit(Patient patient, TrialVisitDef trialVisitDef) {
 		PatientVisit visit = new PatientVisit();
+		visit.setPatient(patient);
+		visit.setDefVisit(trialVisitDef);
     	visit.setVisitDate(patient.getScreeningDate());
-    	visit.setWindowBefore(patient.getScreeningDate());
-    	visit.setWindowAfter(patient.getScreeningDate());
+//    	visit.setWindowBefore(patient.getScreeningDate());
+//    	visit.setWindowAfter(patient.getScreeningDate());
     	return visit;
 	}
     

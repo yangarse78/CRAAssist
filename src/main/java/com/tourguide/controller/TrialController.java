@@ -76,8 +76,6 @@ public class TrialController {
 			Long selectedSiteVisitType = visit.getSelectedSiteVisitType() != null ? visit.getSelectedSiteVisitType() : 0L;
 			visit.setSiteVisitType(trialVisitDefService.getSiteVisitTypeById(selectedSiteVisitType));
 
-//			Long selectedTreatment = visit.getSelectedTreatment() != null ? visit.getSelectedTreatment() : 0L;
-//			visit.setTreatment(trialVisitDefService.getTreatmentById(selectedTreatment));
 			Long[] selectedTreatmentsList = visit.getSelectedTreatmentsList();
 			List<VisitTreatment> treatmentsList = new ArrayList<>();
 			for(Long selectedTreatId : selectedTreatmentsList) {

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +37,7 @@ public class Patient {
 	@NotEmpty(message = "Please Enter your Subject number")
 	private String subjectId;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "trial_id")
 	private Trial trial;
 		
@@ -58,8 +61,8 @@ public class Patient {
 	@Column(name = "COMMENT")
 	private String comment;
 
-	
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
     private List<PatientVisit> visits;
 	
 	
@@ -68,6 +71,12 @@ public class Patient {
 	
 	public Patient() {}
 
+	
+	public PatientVisit getRandomizationVisit() {
+		return visits.stream().filter(visit -> visit.getDefVisit().getIsRandomization()).findAny().orElse(null);
+	}
+	
+	
 	
 	public Long getId() {
 		return id;

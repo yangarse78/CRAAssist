@@ -16,6 +16,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -46,9 +48,11 @@ public class Trial {
 	private String comment;
 
 	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
     private List<TrialVisitDef> visits;
 	
-	@OneToMany(mappedBy = "trial", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "trial", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
     private List<Patient> patients;
 	
 	@Column(name = "CREATION_DATE")
@@ -57,6 +61,14 @@ public class Trial {
 	public Trial() {}
 	
 
+	public TrialVisitDef getRandomizationVisit() {
+		return visits.stream().filter(visit -> visit.getIsRandomization()).findAny().orElse(null);
+	}
+
+	public TrialVisitDef getFirstVisit() {
+		return visits.stream().filter(visit -> visit.getOrder() == 1).findAny().orElse(null);
+	}
+	
 	public Long getId() {
 		return id;
 	}

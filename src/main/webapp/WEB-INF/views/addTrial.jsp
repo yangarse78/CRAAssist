@@ -25,6 +25,14 @@
 	   		$('#trialForm').attr('action', action);
 	   		$("#trialForm").submit();
    		}
+    	
+    	function disableOtherChkBoxes(checkedRand){
+    		if($('#' + checkedRand).is(':checked')){
+    			$('input:checkbox[id^="randChkBox_"]:not(:checked)').prop("disabled", true);
+    		} else {
+    			$('input:checkbox[id^="randChkBox_"]').prop("disabled", false);
+    		}
+    	}
     
     </script>
     
@@ -72,6 +80,7 @@
 							      <th scope="col">Window Type</th>
 							      <th scope="col">Visit Type</th>
 							      <th scope="col">Site Visit Type</th>
+							      <th scope="col">Randomization</th>							      
 							    </tr>
 							  </thead>
 							  <tbody>
@@ -128,6 +137,14 @@
 														        <form:option value="0" label="--Please Select"/>
 						     									<form:options items="${siteVisitTypeList}" itemValue="id" itemLabel="siteVisitType"/>
 														    </form:select>
+													</fieldset>														      
+										      </td>
+										      <td>
+													<fieldset>
+														<form:checkbox cssStyle="margin-bottom:0px"
+																		onclick="disableOtherChkBoxes(this.id)"
+																		id="randChkBox_${visitIndex.index+1}" 
+																		path="visits[${visitIndex.index}].isRandomization" />
 													</fieldset>														      
 										      </td>
 										    </tr>

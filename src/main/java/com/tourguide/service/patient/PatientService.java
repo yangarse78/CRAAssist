@@ -10,7 +10,7 @@ public interface PatientService {
 
 	List<Patient> getPerTrial(Long id);
 
-	void save(Patient patient);
+	void persist(Patient patient);
 
 	Patient getPatientById(Long id);
 
