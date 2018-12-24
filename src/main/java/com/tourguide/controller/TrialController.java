@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.tourguide.model.SiteVisitType;
 import com.tourguide.model.Trial;
 import com.tourguide.model.TrialTimeUnit;
@@ -91,7 +96,9 @@ public class TrialController {
 					visit.getOrder(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
 		}
 
-		trial.setCreationDate(new Date());
+		Date date = new Date();
+		trial.setCreationDate(date);
+		trial.setUpdateDate(date);
 		trialService.persist(trial);
 		redirectAttributes.addFlashAttribute("trial", trial);
 		model.addAttribute("trial", trial);
@@ -140,6 +147,13 @@ public class TrialController {
 		return "trialDashboard";
 	}
 
+	@GetMapping("/doUpdateTrial")
+	public String openUpdateTrial(@ModelAttribute("trial") @Valid Trial trial, final BindingResult result,
+			final Locale locale, final Model model) {
+		model.addAttribute("trial", trial);
+		return "updateTrial";
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String showTrial(@PathVariable("id") Long id, final Model model) {
 		logger.debug("showTrial() id: {}", id);
@@ -149,6 +163,107 @@ public class TrialController {
 
 		return "trialDashboard";
 
+	}
+	
+	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
+	public String updateTrial(@PathVariable("id") Long id, final Model model) {
+		logger.debug("update Trial() id: {}", id);
+
+		Trial trial = trialService.getTrialById(id);
+		for(TrialVisitDef visit : trial.getVisits()) {
+			TrialTimeUnit intervalType = visit.getIntervalType();
+			SiteVisitType siteVisitType = visit.getSiteVisitType();
+			VisitType visitType = visit.getVisitType();
+			TrialTimeUnit winType = visit.getVisitWindowType();
+			List<VisitTreatment> treatments = visit.getTreatments();
+			visit.setSelectedIntervalType(intervalType != null ? intervalType.getId() : 0);
+			visit.setSelectedSiteVisitType(siteVisitType != null ? siteVisitType.getId() : 0);
+			visit.setSelectedVisitType(visitType != null ? visitType.getId() : 0);
+			visit.setSelectedVisitWindowType(winType != null ? winType.getId() : 0);
+			List<Long> list = treatments.stream().map((treatment) -> treatment.getId()).collect(Collectors.toList());
+			visit.setSelectedTreatmentsList(list.toArray(new Long[list.size()]));
+		}
+		model.addAttribute("trial", trial);
+		loadPageLists(model);
+		return "updateTrial";
+
+	}
+
+	@RequestMapping(value = "/{id}/updateVisits", method = RequestMethod.POST)
+	public String updateVisits(@ModelAttribute("trial") @Valid Trial trial, @PathVariable("id") Long id, 
+			final BindingResult result, final Model model, final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("trial", trial);
+			loadPageLists(model);
+			return "updateTrial";
+		}
+		
+		List<TrialVisitDef> visits = trial.getVisits();
+		int definedNumOfVisits = trial.getNumOfVisits();
+		if(definedNumOfVisits > trial.getVisits().size()) {
+			int existingVisits = trial.getVisits().size();
+			while (definedNumOfVisits != existingVisits) {
+				visits.add(new TrialVisitDef());
+				existingVisits++;
+			}
+		} else {
+			for(int i = 0; i < definedNumOfVisits - trial.getVisits().size(); i++) {
+				visits.remove(trial.getVisits().size()-1);
+			}
+		}
+		
+
+
+		redirectAttributes.addFlashAttribute("trial", trial);
+		model.addAttribute("trial", trial);
+		loadPageLists(model);
+		return "updateTrial";
+	}
+	
+	@PostMapping(value = "/{id}/updateTrial")
+	public String updateTrial(@ModelAttribute("trial") @Valid Trial trial, final BindingResult result, final Model model,
+			final RedirectAttributes redirectAttributes) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("trial", trial);
+			loadPageLists(model);
+			return "updateTrial";
+		}
+
+		List<TrialVisitDef> visits = trial.getVisits();
+		for (TrialVisitDef visit : visits) {
+			visit.setTrial(trial);
+
+			Long selectedIntervalType = visit.getSelectedIntervalType() != null ? visit.getSelectedIntervalType() : 0L;
+			visit.setIntervalType(trialVisitDefService.getTrialTimeUnitById(selectedIntervalType));
+
+			Long selectedVisitType = visit.getSelectedVisitType() != null ? visit.getSelectedVisitType() : 0L;
+			visit.setVisitType(trialVisitDefService.getVisitTypeById(selectedVisitType));
+
+			Long selectedSiteVisitType = visit.getSelectedSiteVisitType() != null ? visit.getSelectedSiteVisitType() : 0L;
+			visit.setSiteVisitType(trialVisitDefService.getSiteVisitTypeById(selectedSiteVisitType));
+
+			Long[] selectedTreatmentsList = visit.getSelectedTreatmentsList();
+			List<VisitTreatment> treatmentsList = new ArrayList<>();
+			for(Long selectedTreatId : selectedTreatmentsList) {
+				VisitTreatment treatment = trialVisitDefService.getTreatmentById(selectedTreatId);
+				treatmentsList.add(treatment);
+			}
+			visit.setTreatments(treatmentsList);
+			
+			Long selectedVisitWinType = visit.getSelectedVisitWindowType() != null ? visit.getSelectedVisitWindowType() : 0L;
+			visit.setVisitWindowType(trialVisitDefService.getTrialTimeUnitById(selectedVisitWinType));			
+
+			logger.debug("Visit: {} SelectedIntervalType: {}, selectedVisitType: {}, selectedSiteVisitType: {} \n",
+					visit.getOrder(), selectedIntervalType, selectedVisitType, selectedSiteVisitType);
+		}
+
+		trial.setUpdateDate(new Date());
+		trialService.saveOrUpdate(trial);
+		redirectAttributes.addFlashAttribute("trial", trial);
+		model.addAttribute("trial", trial);
+		return "trialDashboard";
 	}
 
 }

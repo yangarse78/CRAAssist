@@ -27,7 +27,7 @@
         	
         	
         <div class="container">
-	     <h2>Add Patient</h2>
+	     <h2>New Patient</h2>
 		 <form:form action="patient/addPatient" method="post" modelAttribute="patient">
 		    	<div class="row">
 			    	<div class="col">

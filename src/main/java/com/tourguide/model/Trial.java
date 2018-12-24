@@ -58,6 +58,9 @@ public class Trial {
 	@Column(name = "CREATION_DATE")
 	private Date creationDate;
 	
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
+	
 	public Trial() {}
 	
 
@@ -131,6 +134,14 @@ public class Trial {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 	
 }

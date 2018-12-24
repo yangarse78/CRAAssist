@@ -4,6 +4,7 @@
 <%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" 		uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 	<c:set var = "path" scope = "session" value = "../"/>
@@ -16,7 +17,7 @@
     		margin-left: -8%;
     		background-repeat: no-repeat;
     	}
-    	.space { margin:0; padding:0; height:50px; }
+    	.space { margin:0; padding:0; height:30px; }
     </style>
     
     <body>
@@ -28,23 +29,23 @@
 			     
 			     	<div class="col-4">
 				     	<div class="row">
-				     		<label class="col-sm-12"><h2>Trial Dashboard</h2></label>
+				     		<label class="col-sm-12 h2">Trial Dashboard</label>
 				     	</div>
 				     	<div class="row">
-							<label class="col-sm-4">Trial Number</label>
-							<div class="col-sm-8">${trial.trialNum}</div>
+							<label class="col-sm-5">Trial Number</label>
+							<div class="col-sm-7">${trial.trialNum}</div>
 						</div>
 				     	<div class="row">
-							<label class="col-sm-4">Trial Name</label>
-							<div class="col-sm-8">${trial.name}</div>
+							<label class="col-sm-5">Trial Name</label>
+							<div class="col-sm-7">${trial.name}</div>
 						</div>
 				     	<div class="row">
-							<label class="col-sm-4">Number Of Visits</label>
-							<div class="col-sm-8">${trial.numOfVisits}</div>
+							<label class="col-sm-5">Number Of Visits</label>
+							<div class="col-sm-7">${trial.numOfVisits}</div>
 						</div>
 				     	<div class="row">
-							<label class="col-sm-4">Comments</label>
-							<div class="col-sm-8">${trial.comment}</div>
+							<label class="col-sm-5">Comments</label>
+							<div class="col-sm-7" style="overflow: auto; max-height: 50px;">${trial.comment}</div>
 						</div>	
 					</div>
 					<div class="col-8">
@@ -113,7 +114,7 @@
 													      <td>${patient.lastName}</td>
 													      <td>${patient.telepone}</td>
 													      <td>${patient.email}</td>
-													      <td>${patient.screeningDate}</td>
+													      <td><fmt:formatDate value="${patient.screeningDate}" pattern="dd-MM-yyyy" /></td>
 													      <td>
 													      		<spring:url value="/patient/${patient.id}" var="viewUrl" />
 				  												<spring:url value="/patient/${patient.id}/update" var="updateUrl" />

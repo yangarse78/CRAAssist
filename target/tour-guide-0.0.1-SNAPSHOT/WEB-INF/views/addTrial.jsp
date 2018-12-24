@@ -25,6 +25,14 @@
 	   		$('#trialForm').attr('action', action);
 	   		$("#trialForm").submit();
    		}
+    	
+    	function disableOtherChkBoxes(checkedRand){
+    		if($('#' + checkedRand).is(':checked')){
+    			$('input:checkbox[id^="randChkBox_"]:not(:checked)').prop("disabled", true);
+    		} else {
+    			$('input:checkbox[id^="randChkBox_"]').prop("disabled", false);
+    		}
+    	}
     
     </script>
     
@@ -72,6 +80,7 @@
 							      <th scope="col">Window Type</th>
 							      <th scope="col">Visit Type</th>
 							      <th scope="col">Site Visit Type</th>
+							      <th scope="col">Randomization</th>							      
 							    </tr>
 							  </thead>
 							  <tbody>
@@ -79,13 +88,18 @@
 								  		<form:hidden path="visits[${visitIndex.index}].order" value="${visitIndex.index+1}"/>
 										    <tr>
 										      <th scope="row">${visitIndex.index+1}</th>
-										      <td>
-													<fieldset>
-																<form:select path="visits[${visitIndex.index}].selectedTreatment"  cssClass="custom-select" id="treatment_${visitIndex.index+1}">
-															        <form:option value="0" label="--Please Select"/>
-							     									<form:options items="${treatmentsList}" itemValue="id" itemLabel="treatment"/>
-															    </form:select>
-													</fieldset>														      
+										      <td style="width: 200px">
+													<div class="well" style="max-height: 100px;overflow: auto;">
+														<ul class="list-group checked-list-box">														
+																<c:forEach var="i" varStatus="treatment" items="${treatmentsList}"> 
+															             	<li class="list-group-item" style="padding: 5px">           
+															                    <form:checkbox cssStyle="margin-bottom:0px" path = "visits[${visitIndex.index}].selectedTreatmentsList"  value="${i.id}" />
+															                    <c:out value="${i.treatment}"/>
+															                    <form:errors path="visits[${visitIndex.index}].selectedTreatmentsList" cssClass="error" />
+																			</li>                      	
+															     </c:forEach>	
+														</ul>
+													</div>													      
 										      </td>
 										      <td>
 										      		<form:input path="visits[${visitIndex.index}].interval" type="text" cssClass="form-control" id="interval_${visitIndex.index+1}" placeholder="Enter an interval"/>
@@ -123,6 +137,14 @@
 														        <form:option value="0" label="--Please Select"/>
 						     									<form:options items="${siteVisitTypeList}" itemValue="id" itemLabel="siteVisitType"/>
 														    </form:select>
+													</fieldset>														      
+										      </td>
+										      <td>
+													<fieldset>
+														<form:checkbox cssStyle="margin-bottom:0px"
+																		onclick="disableOtherChkBoxes(this.id)"
+																		id="randChkBox_${visitIndex.index+1}" 
+																		path="visits[${visitIndex.index}].isRandomization" />
 													</fieldset>														      
 										      </td>
 										    </tr>

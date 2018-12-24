@@ -40,9 +40,6 @@ public class TrialVisitDef {
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
-//	@OneToOne
-//	private VisitTreatment treatment;
-	
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
     		   name="treatment_per_visit",
@@ -124,14 +121,6 @@ public class TrialVisitDef {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-//	public VisitTreatment getTreatment() {
-//		return treatment;
-//	}
-//
-//	public void setTreatment(VisitTreatment treatment) {
-//		this.treatment = treatment;
-//	}
 
 	public VisitType getVisitType() {
 		return visitType;

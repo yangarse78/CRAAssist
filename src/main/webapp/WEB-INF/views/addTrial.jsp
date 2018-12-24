@@ -62,7 +62,7 @@
 						<div class="form-group">
 							 <div class="form-group">
 							   <label for="TrialComments">Comments</label>
-							   <form:textarea path="comment" cssClass="form-control" id="trialComments" rows="3"/>
+							   <form:textarea path="comment"   maxlength="224" cssClass="form-control" id="trialComments" rows="3"/>
 							   <form:errors path="comment" cssClass="alert-danger" />
 							 </div>
 						</div>

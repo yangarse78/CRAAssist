@@ -22,7 +22,7 @@
 					
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						<a class="dropdown-item" href="/tour-guide/gotoAddTrial">Add New Trial</a> <a
-							class="dropdown-item" href="#">Another action</a> <a
+							class="dropdown-item" href="/tour-guide/gotoAddPatient">Add New Patient</a> <a
 							class="dropdown-item" href="#">Something else here</a>
 					</div></li>
 			</ul>

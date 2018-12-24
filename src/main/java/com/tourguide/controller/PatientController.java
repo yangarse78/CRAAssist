@@ -75,13 +75,15 @@ public class PatientController {
 		
 		int firstInterval = firstVisit.getDefVisit().getInterval();
         visits.add(firstVisit);
-        
+
+        //TODO fix - randomization visit to be any of visits
         Date randomization = addDays(firstVisit.getVisitDate(), Math.abs(firstInterval));
         
         //TrialVisitDef randomizationVisitDef = patient.getTrial().getRandomizationVisit();
-        for(int i = 1; i < defVisitList.size() - 1; i++) {
+        for(int i = 1; i < defVisitList.size(); i++) {
         	TrialVisitDef defVisit  = defVisitList.get(i);
         	PatientVisit visit = new PatientVisit();
+        	visit.setDefVisit(defVisitList.get(i));
         	visit.setPatient(patient);
         	Date visitDate = addTimeInterval(defVisit, randomization);
         	visit.setVisitDate(visitDate);    
