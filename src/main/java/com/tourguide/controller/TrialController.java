@@ -213,8 +213,6 @@ public class TrialController {
 			}
 		}
 		
-
-
 		redirectAttributes.addFlashAttribute("trial", trial);
 		model.addAttribute("trial", trial);
 		loadPageLists(model);
@@ -263,7 +261,7 @@ public class TrialController {
 		trialService.saveOrUpdate(trial);
 		redirectAttributes.addFlashAttribute("trial", trial);
 		model.addAttribute("trial", trial);
-		return "trialDashboard";
+		return "redirect:../trialDashboard";
 	}
 
 }

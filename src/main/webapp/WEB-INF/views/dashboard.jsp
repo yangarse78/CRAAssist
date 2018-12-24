@@ -5,7 +5,8 @@
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-	<c:set var = "path" scope = "session" value = ""/>
+<%-- 	<c:set var = "path" scope = "session" value = ""/> --%>
+	<c:set var = "pageName" scope = "session" value = "Dashboard"/>
     <jsp:include page="headIncludes.jsp" />
 
     

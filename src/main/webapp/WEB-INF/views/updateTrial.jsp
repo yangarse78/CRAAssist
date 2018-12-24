@@ -2,9 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>	
 <!DOCTYPE html>
 <html>
-
+	<c:set var = "pageName" scope = "session" value = "Update Trial"/>
     <jsp:include page="headIncludes.jsp" />
     
     <style type="text/css">
@@ -30,7 +31,17 @@
     	
     	$( document ).ready(function() {
     		$('input:checkbox[id^="randChkBox_"]:not(:checked)').prop("disabled", true);
+    		updateCreationDateFormat();
     	});
+    	
+    	function updateCreationDateFormat(){
+    		var d = new Date($('#creationDate').val());
+    		var curr_date = d.getDate();
+    		var curr_month = d.getMonth() + 1; //Months are zero based
+    		var curr_year = d.getFullYear();
+    		var date = curr_date + "/" + curr_month + "/" + curr_year;
+    		$('#creationDate').val(date);
+    	}
     	
     	function disableOtherChkBoxes(checkedRand){
     		if($('#' + checkedRand).is(':checked')){
@@ -47,9 +58,9 @@
     
     
         <div class="container">
-    		<h2>Update Trial</h2>
 			<form:form action="updateTrial" method="post" modelAttribute="trial" id="trialForm">
 				<form:hidden path="id"/>
+				<form:hidden path="creationDate" id="creationDate"/>
 		    	<div class="row">
 		    		<div class="col-8">
 				    	<div class="form-group">
@@ -59,11 +70,11 @@
 						</div>
 						<div class="form-group">
 						    <label for="TroialName">Trial Name</label>
-						    <form:input path="name" type="text" cssClass="form-control" id="trialName" placeholder="Enter Trial name"/>
+						    <form:input path="name" type="text" cssClass="form-control" id="trialName" />
 						</div>
 						<div class="form-group">
 						    <label for="NumOfVisits">Number Of Visits</label>
-						    <form:input path="numOfVisits" type="text" cssClass="form-control" id="numOfVisits" placeholder="Enter number of visits" onchange="addVisits(${trial.id})"/>
+						    <form:input path="numOfVisits" type="text" cssClass="form-control" id="numOfVisits" onchange="addVisits(${trial.id})"/>
 						    <form:errors path="numOfVisits" cssClass="alert-danger" />
 						</div>
 						<div class="form-group">
@@ -170,6 +181,7 @@
 						</table>			    
 		    	</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Back</button>
 			</form:form>
    		</div>
     </body>

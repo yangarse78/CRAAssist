@@ -4,8 +4,8 @@
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<%-- 	<c:set var = "path" scope = "session" value = ""/>
-	<c:set var="contextPath" value="${pageContext.request.contextPath}"/> --%>
+	<c:set var = "pageName" scope = "session" value = "New Trial"/>
+
     <jsp:include page="headIncludes.jsp" />
     
     
@@ -41,7 +41,6 @@
     
     
         <div class="container">
-    		<h2>Add New Trial</h2>
 			<form:form action="addTrial" method="post" modelAttribute="trial" id="trialForm">
 		    	<div class="row">
 		    		<div class="col-8">
@@ -153,6 +152,7 @@
 						</table>			    
 		    	</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Cancel</button>
 			</form:form>
    		</div>
     </body>

@@ -65,47 +65,48 @@
 	   		</div>
 			<div class="space"></div>
 	   		<div class="row">
-						<table class="table table-sm">
-							  <thead>
-							    <tr>
-							      <th scope="col">#</th>
-							      <th scope="col">Treatment</th>
-							      <th scope="col">Before Window</th>
-							      <th scope="col">Next Visit</th>
-							      <th scope="col">After Window</th>
-							      <th scope="col">Visit Type</th>
-							      <th scope="col">Site Visit Type</th>
-							      <th scope="col">Rand</th>
-							    </tr>
-							  </thead>	
-							  <tbody>
-								  	<c:forEach items="${patient.visits}" var="visit" varStatus="visitIndex">
-										    <tr>
-										      <th scope="row">${visit.defVisit.order}</th>
-										      <td >
-											      <c:forEach items="${visit.defVisit.treatments}" var="treatment" varStatus="treatmentIndex">
-											      		<c:out value="${treatment.treatment}"/>
-											      		<c:if test="${treatmentIndex.index+1 < visit.defVisit.treatments.size()}">,</c:if> 
-											      </c:forEach>
-										      </td>
-										      <td><fmt:formatDate value="${visit.windowBefore}" pattern="dd-MM-yyyy" /></td>
-										      <td><fmt:formatDate value="${visit.visitDate}" pattern="dd-MM-yyyy" /></td>
-										      <td><fmt:formatDate value="${visit.windowAfter}" pattern="dd-MM-yyyy" /></td>
-										      <td>${visit.defVisit.visitType.visitType}</td>
-										      <td>${visit.defVisit.siteVisitType.siteVisitType}</td>
-										      <td>
-									      			<c:if test="${visit.defVisit.isRandomization}">
-									      				<div  style="text-align: center;"> 
-									      					<!-- <img src="../images/checked.png"  style="max-width: 44px"> -->
-									      					<div class="randImg"></div>
-									      				</div>
-									      			</c:if>
-										      </td>
-										    </tr>
-								    </c:forEach>
-							  </tbody>
-						</table>		   	
+				<table class="table table-sm">
+					  <thead>
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">Treatment</th>
+					      <th scope="col">Before Window</th>
+					      <th scope="col">Next Visit</th>
+					      <th scope="col">After Window</th>
+					      <th scope="col">Visit Type</th>
+					      <th scope="col">Site Visit Type</th>
+					      <th scope="col">Rand</th>
+					    </tr>
+					  </thead>	
+					  <tbody>
+						  	<c:forEach items="${patient.visits}" var="visit" varStatus="visitIndex">
+								    <tr>
+								      <th scope="row">${visit.defVisit.order}</th>
+								      <td >
+									      <c:forEach items="${visit.defVisit.treatments}" var="treatment" varStatus="treatmentIndex">
+									      		<c:out value="${treatment.treatment}"/>
+									      		<c:if test="${treatmentIndex.index+1 < visit.defVisit.treatments.size()}">,</c:if> 
+									      </c:forEach>
+								      </td>
+								      <td><fmt:formatDate value="${visit.windowBefore}" pattern="dd-MM-yyyy" /></td>
+								      <td><fmt:formatDate value="${visit.visitDate}" pattern="dd-MM-yyyy" /></td>
+								      <td><fmt:formatDate value="${visit.windowAfter}" pattern="dd-MM-yyyy" /></td>
+								      <td>${visit.defVisit.visitType.visitType}</td>
+								      <td>${visit.defVisit.siteVisitType.siteVisitType}</td>
+								      <td>
+							      			<c:if test="${visit.defVisit.isRandomization}">
+							      				<div  style="text-align: center;"> 
+							      					<!-- <img src="../images/checked.png"  style="max-width: 44px"> -->
+							      					<div class="randImg"></div>
+							      				</div>
+							      			</c:if>
+								      </td>
+								    </tr>
+						    </c:forEach>
+					  </tbody>
+				</table>		   	
 	   		</div>
+	   		<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Back</button>
 	   </div>
     </body>
     
