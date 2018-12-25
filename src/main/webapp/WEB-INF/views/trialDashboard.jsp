@@ -12,13 +12,8 @@
     <jsp:include page="headIncludes.jsp" />
     
     <style type="text/css">
-    	.randImg{
-    		background-image: url('../images/checked40x40.png');
-    		height: 40px;
-    		margin-left: -8%;
-    		background-repeat: no-repeat;
-    	}
-    	.space { margin:0; padding:0; height:30px; }
+
+
     </style>
     
     <body>
@@ -27,9 +22,7 @@
     	
         <div class="container">
 			     <div class="row" style="max-height: 250px;overflow: auto;">
-			     
 			     	<div class="col-4">
-
 				     	<div class="row">
 							<label class="col-sm-5">Trial Number</label>
 							<div class="col-sm-7">${trial.trialNum}</div>
@@ -88,7 +81,11 @@
 						</table>						
 					</div>		     
 			     </div>
-			     <div class="space"></div>
+			     <div class="row">
+			     	<div class="col-4">
+				     	<input class="form-control" id="myInput" type="text" placeholder="Search..">
+				     </div>
+			     </div>
 			     <div class="row">
 						<div class="col">
 								<table class="table table-striped">
@@ -104,7 +101,7 @@
 								      <th scope="col"></th>
 								    </tr>
 								  </thead>
-								  <tbody>
+								  <tbody  id="myTable">
 									  	<c:forEach items="${trial.patients}" var="patient" varStatus="patientIndex">
 											    <tr>
 											      <th scope="row">${patientIndex.index +1}</th>

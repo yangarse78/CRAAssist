@@ -9,48 +9,57 @@
 	<c:set var = "pageName" scope = "session" value = "Dashboard"/>
     <jsp:include page="headIncludes.jsp" />
 
+	<script type="text/javascript">
+		
+
+
+	</script>
+
     
     <body>
 		<jsp:include page="navBar.jsp" />
                 
-						<div class="container">
-							<div class="row" style="margin: 0px">
-								<div class="col border">
-										<table class="table table-striped">
-										  <thead>
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Trial Number</th>
-										      <th scope="col">Name</th>
-										      <th scope="col">Number of Visits</th>
-										      <th scope="col">Creation Date</th>
-										      <th scope="col">Action</th>
-										    </tr>
-										  </thead>
-										  <tbody>
-											  	<c:forEach items="${trials}" var="item" varStatus="itemIndex">
-													    <tr>
-													      <th scope="row">${itemIndex.index}</th>
-													      <td>${item.trialNum}</td>
-													      <td>${item.name}</td>
-													      <td>${item.numOfVisits}</td>
-													      <td>${item.creationDate}</td>
-													      <td>
-													      		<spring:url value="/trial/${item.id}" var="viewUrl" />
-				  												<spring:url value="/trial/${item.id}/update" var="updateUrl" />
-													      		<button class="btn btn-info" onclick="location.href='${viewUrl}'">View</button>
-				  												<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>	
-													      </td>
-													    </tr>
-											    </c:forEach>
-										  </tbody>
-										</table>
-								</div>
-							    <div class="w-100"></div>
-							    <div class="col border">Column</div>
-							</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-4">
+							<input class="form-control" id="myInput" type="text" placeholder="Search..">
+						</div>
 					</div>
-		
+					<div class="w-100"></div>
+					<div class="row">
+					    <div class="col ">
+								<table class="table table-striped table-bordered">
+								  <thead>
+								    <tr>
+								      <th scope="col">#</th>
+								      <th scope="col">Trial Number</th>
+								      <th scope="col">Name</th>
+								      <th scope="col">Number of Visits</th>
+								      <th scope="col">Creation Date</th>
+								      <th scope="col">Action</th>
+								    </tr>
+								  </thead>
+								  <tbody id="myTable">
+									  	<c:forEach items="${trials}" var="item" varStatus="itemIndex">
+											    <tr>
+											      <th scope="row">${itemIndex.index}</th>
+											      <td>${item.trialNum}</td>
+											      <td>${item.name}</td>
+											      <td>${item.numOfVisits}</td>
+											      <td>${item.creationDate}</td>
+											      <td>
+											      		<spring:url value="/trial/${item.id}" var="viewUrl" />
+		  												<spring:url value="/trial/${item.id}/update" var="updateUrl" />
+											      		<button class="btn btn-info" onclick="location.href='${viewUrl}'">View</button>
+		  												<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>	
+											      </td>
+											    </tr>
+									    </c:forEach>
+								  </tbody>
+								</table>
+						</div>
+					</div>
+				</div>
     </body>
     
 </html>

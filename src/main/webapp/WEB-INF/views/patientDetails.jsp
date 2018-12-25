@@ -5,7 +5,8 @@
 <%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>	
 <!DOCTYPE html>
 <html>
-	<c:set var = "path" scope = "session" value = "../"/>
+<%-- 	<c:set var = "path" scope = "session" value = "../"/> --%>
+	<c:set var = "pageName" scope = "session" value = "Patient Details"/>
     <jsp:include page="headIncludes.jsp" />
     
 	<style type="text/css">
@@ -25,11 +26,7 @@
     	
         <div class="container">
         	<div class="row">
-        	
-        	<div class="col-4">
-			     	<div class="row">
-				     		<label class="col-sm-12 h2">Patient Details</label>
-				    </div>
+        		<div class="col-4">
 			     	<div class="row">
 						<label class="col-sm-5">Subject Number</label>
 						<div class="col-sm-7">${patient.subjectId}</div>
@@ -65,7 +62,7 @@
 	   		</div>
 			<div class="space"></div>
 	   		<div class="row">
-				<table class="table table-sm">
+				<table class="table table-striped table-bordered">
 					  <thead>
 					    <tr>
 					      <th scope="col">#</th>
