@@ -108,7 +108,7 @@ public class PatientController {
         patient.setTrial(trial);
         
 		patientService.saveOrUpdate(patient);
-        redirectAttributes.addFlashAttribute("trial", trial);
+        redirectAttributes.addFlashAttribute("patient", patient);
         return "patientDetails";
     }
     
