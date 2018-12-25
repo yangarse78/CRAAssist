@@ -13,5 +13,7 @@ public interface PatientService {
 	void persist(Patient patient);
 
 	Patient getPatientById(Long id);
+	
+	void saveOrUpdate(Patient patient);
 
 }

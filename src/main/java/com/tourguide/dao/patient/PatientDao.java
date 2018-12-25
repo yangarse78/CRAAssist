@@ -13,5 +13,7 @@ public interface PatientDao {
 	void persist(Patient patient);
 
 	Patient getByKey(Long id);
+
+	void saveOrUpdate(Patient patient);
 	
 }

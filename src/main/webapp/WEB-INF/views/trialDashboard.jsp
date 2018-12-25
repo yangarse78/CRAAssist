@@ -123,6 +123,8 @@
 								</table>
 						</div>
 				</div>
+				<spring:url value="/trial/${trial.id}/update" var="updateUrl" />
+				<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>	
 				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Back</button>
 	   		</div>
     </body>

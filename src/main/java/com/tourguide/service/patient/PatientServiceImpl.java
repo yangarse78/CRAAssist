@@ -37,6 +37,12 @@ public class PatientServiceImpl implements PatientService{
 		return patientDao.getByKey(id);
 	}
 
+
+	@Override
+	public void saveOrUpdate(Patient patient) {
+		patientDao.saveOrUpdate(patient);
+	}
+
 	
 	
 	

@@ -3,17 +3,16 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>	
 <!DOCTYPE html>
 <html>
 <%-- 	<c:set var = "path" scope = "session" value = ""/> --%>
 	<c:set var = "pageName" scope = "session" value = "Dashboard"/>
     <jsp:include page="headIncludes.jsp" />
 
-	<script type="text/javascript">
-		
-
-
-	</script>
+	<style type="text/css">
+		th, td {text-align: center}
+	</style>
 
     
     <body>
@@ -46,7 +45,7 @@
 											      <td>${item.trialNum}</td>
 											      <td>${item.name}</td>
 											      <td>${item.numOfVisits}</td>
-											      <td>${item.creationDate}</td>
+											      <td><fmt:formatDate value="${item.creationDate}" pattern="dd-MM-yyyy" /></td>
 											      <td>
 											      		<spring:url value="/trial/${item.id}" var="viewUrl" />
 		  												<spring:url value="/trial/${item.id}/update" var="updateUrl" />

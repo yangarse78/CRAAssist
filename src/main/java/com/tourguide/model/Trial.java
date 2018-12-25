@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -60,6 +61,10 @@ public class Trial {
 	
 	@Column(name = "UPDATE_DATE")
 	private Date updateDate;
+	
+	
+	@Transient
+	private String trialFullName;
 	
 	public Trial() {}
 	
@@ -142,6 +147,14 @@ public class Trial {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+	
+	public String getTrialFullName() {
+		return trialFullName;
+	}
+	
+	public void setTrialFullName(String trialFullName) {
+		this.trialFullName = trialFullName;
 	}
 	
 }

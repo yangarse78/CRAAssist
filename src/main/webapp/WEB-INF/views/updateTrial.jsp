@@ -24,7 +24,6 @@
     	
     	function addVisits(trial_id) {
     		var action = '../' + trial_id + '/updateVisits';
-    		
 	   		$('#trialForm').attr('action', action);
 	   		$("#trialForm").submit();
    		}

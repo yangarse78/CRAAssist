@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -23,8 +24,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tourguide.model.Patient;
 import com.tourguide.model.PatientVisit;
+import com.tourguide.model.SiteVisitType;
 import com.tourguide.model.Trial;
+import com.tourguide.model.TrialTimeUnit;
 import com.tourguide.model.TrialVisitDef;
+import com.tourguide.model.VisitTreatment;
+import com.tourguide.model.VisitType;
 import com.tourguide.service.patient.PatientService;
 import com.tourguide.service.trial.TrialService;
 
@@ -68,6 +73,45 @@ public class PatientController {
         return "redirect:/trial/trialDashboard";
     }
 
+	
+	@RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
+	public String updateTrial(@PathVariable("id") Long id, final Model model) {
+		logger.debug("update Trial() id: {}", id);
+
+		Patient patient = patientService.getPatientById(id);
+		patient.setSelectedTrial(patient.getTrial().getId());
+
+		model.addAttribute("patient", patient);
+    	List<Trial> trialList = trialService.getList();
+    	model.addAttribute("trialList", trialList);
+		return "updatePatient";
+
+	}
+    
+    @RequestMapping(value = "/{id}/updatePatient", method = RequestMethod.POST)
+    public String doUpdatePatient(@ModelAttribute("patient") @Valid Patient patient,
+                           final BindingResult result, final Model model, final RedirectAttributes redirectAttributes) {
+ 
+        if (result.hasErrors()) {
+            return "updatePatient";
+        }
+
+        Patient patientBeforeUpdate = patientService.getPatientById(patient.getId());
+        if (patientBeforeUpdate.getScreeningDate().compareTo(patient.getScreeningDate()) != 0 || 
+        		!patientBeforeUpdate.getTrial().getId().equals(patient.getSelectedTrial())) {
+			updatePatientVisits(patient);
+		} else {
+			patient.setVisits(patientBeforeUpdate.getVisits());
+		}
+        
+        Trial trial = trialService.getTrialById(patient.getSelectedTrial());
+        patient.setTrial(trial);
+        
+		patientService.saveOrUpdate(patient);
+        redirectAttributes.addFlashAttribute("trial", trial);
+        return "patientDetails";
+    }
+    
 	private void updatePatientVisits(Patient patient) {
 		List<TrialVisitDef> defVisitList = patient.getTrial().getVisits();
 		List<PatientVisit> visits = new ArrayList<PatientVisit>();
@@ -150,6 +194,7 @@ public class PatientController {
 		model.addAttribute("patient", patient);
 
 		return "patientDetails";
-
 	}
+	
+	
 }

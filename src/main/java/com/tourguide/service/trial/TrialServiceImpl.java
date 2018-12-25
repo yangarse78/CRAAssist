@@ -26,7 +26,11 @@ public class TrialServiceImpl implements TrialService{
 
 	@Transactional
 	public List<Trial> getList() {
-		return trialDao.getList();
+		List<Trial>list = trialDao.getList();
+		for(Trial t : list) {
+			t.setTrialFullName(t.getTrialNum() + " - " + t.getName());
+		}
+		return list;
 	}
 
 	@Transactional
