@@ -2,6 +2,7 @@ package com.tourguide.dao.patient;
 
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -39,6 +40,8 @@ public class PatientDaoImpl extends AbstractDao<Long, Patient> implements Patien
 		//TODO change return type of the method
 		logger.debug("New trial Id: {}.", id);
 	}
+
+
 
 
 }

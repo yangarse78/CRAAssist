@@ -4,30 +4,21 @@
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-	<c:set var = "path" scope = "session" value = ""/>
+	<c:set var = "pageName" scope = "session" value = "New Patient"/>
+<%-- 	<c:set var = "path" scope = "session" value = ""/> --%>
     <jsp:include page="headIncludes.jsp" />
     
-    <script>
-    $(document).ready(function(){
-      var date_input=$('input[name="screeningDate"]'); //our date input has the name "date"
-      //var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-      var options={
-        format: 'dd/mm/yyyy',
-        //container: container,
-        todayHighlight: true,
-        autoclose: true,
-      };
-      date_input.datepicker(options);
-    })
-</script>
-
+    <script type="text/javascript">
+    	$(document).ready(function(){
+			
+    	});
+	</script>
 
     <body>
         <jsp:include page="navBar.jsp" />
         	
         	
         <div class="container">
-	     <h2>New Patient</h2>
 		 <form:form action="patient/addPatient" method="post" modelAttribute="patient">
 		    	<div class="row">
 			    	<div class="col">
@@ -68,7 +59,8 @@
 							</div>
 							<div class="form-group">
 							    <label for="Screeningdate">Screening date</label>
-							    <form:input path="screeningDate" type="text" cssClass="form-control" id="screeningDate" placeholder="DD/MM/YYYY"/>
+							    <form:input path="screeningDate" type="date" cssClass="form-control" id="screeningDate" placeholder="DD/MM/YYYY"/>
+							    <form:errors path="screeningDate" cssClass="alert-danger" />
 							</div>	
 							<div class="form-group">
 								 <div class="form-group">
@@ -79,6 +71,7 @@
 					</div>
 		    	</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Cancel</button>
 			</form:form>
    		</div>
     </body>

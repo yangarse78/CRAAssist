@@ -1,5 +1,7 @@
 package com.tourguide.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,6 +36,12 @@ public class PatientVisit {
 	
 	@Column(name = "WINDOW_AFTER")
 	private Date windowAfter;
+	
+	@Column(name = "PLANNED_VISIT")
+	private Date plannedVisitDate;
+	
+	@Column(name = "IS_VISITED")
+	private Boolean isVisited;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "patient_id")
@@ -90,5 +98,27 @@ public class PatientVisit {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-	
+
+	public Date getPlannedVisitDate() {
+		return plannedVisitDate;
+	}
+
+	public void setPlannedVisitDate(String plannedVisitDate) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsed = null;
+		try {
+			parsed = format.parse(plannedVisitDate);
+		} catch (ParseException e) {
+
+		}
+		this.plannedVisitDate = parsed;
+	}
+
+	public Boolean getIsVisited() {
+		return isVisited;
+	}
+
+	public void setIsVisited(Boolean isVisited) {
+		this.isVisited = isVisited;
+	}
 }

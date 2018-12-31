@@ -8,22 +8,11 @@
 <%-- 	<c:set var = "path" scope = "session" value = ""/> --%>
     <jsp:include page="headIncludes.jsp" />
     
-    <script>
-    $(document).ready(function(){
-      var date_input=$('input[name="screeningDate"]'); //our date input has the name "date"
-      //var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-      var options={
-        format: 'dd/mm/yyyy',
-        //container: container,
-        todayHighlight: true,
-        autoclose: true,
-      };
-      date_input.datepicker(options);
-    });
-    
-
-    
-</script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+			
+    	});
+	</script>
 
     <body>
         <jsp:include page="navBar.jsp" />
@@ -70,8 +59,8 @@
 							</div>
 							<div class="form-group">
 							    <label for="Screeningdate">Screening date</label>
-							    <form:input path="screeningDate" type="text" cssClass="form-control" id="screeningDate" placeholder="DD/MM/YYYY"/>
-							    
+							    <form:input path="screeningDate" type="date" cssClass="form-control" id="screeningDate" placeholder="DD/MM/YYYY"/>
+							    <form:errors path="screeningDate" cssClass="alert-danger" />
 							</div>	
 							<div class="form-group">
 								 <div class="form-group">

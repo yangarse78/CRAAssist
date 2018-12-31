@@ -7,17 +7,13 @@
 <%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-	<c:set var = "path" scope = "session" value = "../"/>
+	<%-- <c:set var = "path" scope = "session" value = "../"/> --%>
+	<c:set var = "pageName" scope = "session" value = "Trial Dashboard"/>
     <jsp:include page="headIncludes.jsp" />
     
     <style type="text/css">
-    	.randImg{
-    		background-image: url('../images/checked40x40.png');
-    		height: 40px;
-    		margin-left: -8%;
-    		background-repeat: no-repeat;
-    	}
-    	.space { margin:0; padding:0; height:30px; }
+
+
     </style>
     
     <body>
@@ -26,11 +22,7 @@
     	
         <div class="container">
 			     <div class="row" style="max-height: 250px;overflow: auto;">
-			     
 			     	<div class="col-4">
-				     	<div class="row">
-				     		<label class="col-sm-12 h2">Trial Dashboard</label>
-				     	</div>
 				     	<div class="row">
 							<label class="col-sm-5">Trial Number</label>
 							<div class="col-sm-7">${trial.trialNum}</div>
@@ -89,48 +81,51 @@
 						</table>						
 					</div>		     
 			     </div>
-			     <div class="space"></div>
 			     <div class="row">
-								<div class="col">
-										<table class="table table-striped">
-										  <thead>
-										    <tr>
-										      <th scope="col">#</th>
-										      <th scope="col">Subject Id</th>
-										      <th scope="col">First Name</th>
-										      <th scope="col">Last Name</th>
-										      <th scope="col">Telephone</th>
-										      <th scope="col">Email</th>
-										      <th scope="col">Screening Date</th>
-										      <th scope="col"></th>
-										    </tr>
-										  </thead>
-										  <tbody>
-											  	<c:forEach items="${trial.patients}" var="patient" varStatus="patientIndex">
-													    <tr>
-													      <th scope="row">${patientIndex.index +1}</th>
-													      <td>${patient.subjectId}</td>
-													      <td>${patient.firstName}</td>
-													      <td>${patient.lastName}</td>
-													      <td>${patient.telepone}</td>
-													      <td>${patient.email}</td>
-													      <td><fmt:formatDate value="${patient.screeningDate}" pattern="dd-MM-yyyy" /></td>
-													      <td>
-													      		<spring:url value="/patient/${patient.id}" var="viewUrl" />
-				  												<spring:url value="/patient/${patient.id}/update" var="updateUrl" />
-													      		<button class="btn btn-info" onclick="location.href='${viewUrl}'">View</button>
-				  												<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
-				  										  </td>	
-													    </tr>
-											    </c:forEach>
-										  </tbody>
-										</table>
-								</div>
-							    
-							</div>
-	     
-   
+			     	<div class="col-4">
+				     	<input class="form-control" id="myInput" type="text" placeholder="Search..">
+				     </div>
+			     </div>
+			     <div class="row">
+						<div class="col">
+								<table class="table table-striped">
+								  <thead>
+								    <tr>
+								      <th scope="col">#</th>
+								      <th scope="col">Subject Id</th>
+								      <th scope="col">First Name</th>
+								      <th scope="col">Last Name</th>
+								      <th scope="col">Telephone</th>
+								      <th scope="col">Email</th>
+								      <th scope="col">Screening Date</th>
+								      <th scope="col"></th>
+								    </tr>
+								  </thead>
+								  <tbody  id="myTable">
+									  	<c:forEach items="${trial.patients}" var="patient" varStatus="patientIndex">
+											    <tr>
+											      <th scope="row">${patientIndex.index +1}</th>
+											      <td>${patient.subjectId}</td>
+											      <td>${patient.firstName}</td>
+											      <td>${patient.lastName}</td>
+											      <td>${patient.telepone}</td>
+											      <td>${patient.email}</td>
+											      <td><fmt:formatDate value="${patient.screeningDate}" pattern="dd-MM-yyyy" /></td>
+											      <td>
+											      		<spring:url value="/patient/${patient.id}" var="viewUrl" />
+		  												<spring:url value="/patient/${patient.id}/update" var="updateUrl" />
+											      		<button class="btn btn-info" onclick="location.href='${viewUrl}'">View</button>
+		  												<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>
+		  										  </td>	
+											    </tr>
+									    </c:forEach>
+								  </tbody>
+								</table>
+						</div>
+				</div>
+				<spring:url value="/trial/${trial.id}/update" var="updateUrl" />
+				<button class="btn btn-primary" onclick="location.href='${updateUrl}'">Update</button>	
+				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Back</button>
 	   		</div>
     </body>
-    
 </html>

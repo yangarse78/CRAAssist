@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.tourguide.dao.patient.PatientDao;
 import com.tourguide.model.Patient;
+import com.tourguide.model.PatientVisit;
 
 @Service
 public class PatientServiceImpl implements PatientService{
 
 	@Autowired
-	private PatientDao patientDao;  
+	private PatientDao patientDao; 
+	
+	@Autowired
+	private PatientVisitService patientVisitService;
 	
 	@Override
 	public List<Patient> getList() {
@@ -40,6 +44,29 @@ public class PatientServiceImpl implements PatientService{
 	@Transactional
 	public void saveOrUpdate(Patient patient) {
 		patientDao.saveOrUpdate(patient);
+	}
+
+
+	public List<PatientVisit> getNearestNotVisitedPatients() {
+		return patientVisitService.getNearestNotVisitedPatients();
+	}
+
+
+	@Override
+	public void updateVisit(PatientVisit visit) {
+		patientVisitService.updateVisit(visit);
+	}
+
+
+	@Override
+	public List<PatientVisit> getScheduledVisits() {
+		return patientVisitService.getScheduledVisits();
+	}
+
+
+	@Override
+	public List<PatientVisit> getAllVisits() {
+		return patientVisitService.getAllVisits();
 	}
 
 	

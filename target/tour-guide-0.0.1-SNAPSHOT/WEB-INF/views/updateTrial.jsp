@@ -2,11 +2,17 @@
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="form" 	uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c"       	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" 		uri="http://java.sun.com/jsp/jstl/fmt" %>	
 <!DOCTYPE html>
 <html>
-
+	<c:set var = "pageName" scope = "session" value = "Update Trial"/>
     <jsp:include page="headIncludes.jsp" />
     
+    <style type="text/css">
+    	.notVisible{
+    		display: none;
+    	}
+    </style>
     
     <script type="text/javascript">
     	function visitTypeChanged(chosenVal, selectedId) {
@@ -18,10 +24,23 @@
     	
     	function addVisits(trial_id) {
     		var action = '../' + trial_id + '/updateVisits';
-    		
 	   		$('#trialForm').attr('action', action);
 	   		$("#trialForm").submit();
    		}
+    	
+    	$( document ).ready(function() {
+    		$('input:checkbox[id^="randChkBox_"]:not(:checked)').prop("disabled", true);
+    		updateCreationDateFormat();
+    	});
+    	
+    	function updateCreationDateFormat(){
+    		var d = new Date($('#creationDate').val());
+    		var curr_date = d.getDate();
+    		var curr_month = d.getMonth() + 1; //Months are zero based
+    		var curr_year = d.getFullYear();
+    		var date = curr_date + "/" + curr_month + "/" + curr_year;
+    		$('#creationDate').val(date);
+    	}
     	
     	function disableOtherChkBoxes(checkedRand){
     		if($('#' + checkedRand).is(':checked')){
@@ -38,9 +57,9 @@
     
     
         <div class="container">
-    		<h2>Update Trial</h2>
 			<form:form action="updateTrial" method="post" modelAttribute="trial" id="trialForm">
 				<form:hidden path="id"/>
+				<form:hidden path="creationDate" id="creationDate"/>
 		    	<div class="row">
 		    		<div class="col-8">
 				    	<div class="form-group">
@@ -50,17 +69,17 @@
 						</div>
 						<div class="form-group">
 						    <label for="TroialName">Trial Name</label>
-						    <form:input path="name" type="text" cssClass="form-control" id="trialName" placeholder="Enter Trial name"/>
+						    <form:input path="name" type="text" cssClass="form-control" id="trialName" />
 						</div>
 						<div class="form-group">
 						    <label for="NumOfVisits">Number Of Visits</label>
-						    <form:input path="numOfVisits" type="text" cssClass="form-control" id="numOfVisits" placeholder="Enter number of visits" onchange="addVisits(${trial.id})"/>
+						    <form:input path="numOfVisits" type="text" cssClass="form-control" id="numOfVisits" onchange="addVisits(${trial.id})"/>
 						    <form:errors path="numOfVisits" cssClass="alert-danger" />
 						</div>
 						<div class="form-group">
 							 <div class="form-group">
 							   <label for="TrialComments">Comments</label>
-							   <form:textarea path="comment" cssClass="form-control" id="trialComments" rows="3"/>
+							   <form:textarea path="comment" maxlength="224" cssClass="form-control" id="trialComments" rows="3"/>
 							   <form:errors path="comment" cssClass="alert-danger" />
 							 </div>
 						</div>
@@ -83,6 +102,7 @@
 							  </thead>
 							  <tbody>
 								  	<c:forEach items="${trial.visits}" var="visit" varStatus="visitIndex">
+								  		<form:hidden path="visits[${visitIndex.index}].id"/>
 								  		<form:hidden path="visits[${visitIndex.index}].order" value="${visitIndex.index+1}"/>
 										    <tr>
 										      <th scope="row">${visitIndex.index+1}</th>
@@ -131,7 +151,16 @@
 											      </td>
 										      <td>
 													<fieldset>
-															<form:select path="visits[${visitIndex.index}].selectedSiteVisitType" cssClass="custom-select" id="siteVisitType_${visitIndex.index+1}" cssStyle="display: none">
+															<c:choose>
+																<c:when test="${trial.visits[visitIndex.index].selectedSiteVisitType eq 0}">
+																	<c:set value="notVisible" var="cssClass"></c:set>
+																</c:when>
+																 <c:otherwise>
+																 	<c:set value="" var="cssClass"></c:set>
+																 </c:otherwise>
+															</c:choose>
+															<form:select path="visits[${visitIndex.index}].selectedSiteVisitType" cssClass="custom-select ${cssClass}" id="siteVisitType_${visitIndex.index+1}" 
+																		 cssStyle="">
 														        <form:option value="0" label="--Please Select"/>
 						     									<form:options items="${siteVisitTypeList}" itemValue="id" itemLabel="siteVisitType"/>
 														    </form:select>
@@ -151,6 +180,7 @@
 						</table>			    
 		    	</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-secondary" onclick="history.go(-1);">Back</button>
 			</form:form>
    		</div>
     </body>

@@ -1,25 +1,27 @@
 package com.tourguide.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tourguide.model.Patient;
+import com.tourguide.model.PatientVisit;
+import com.tourguide.model.PatientVisitListContainer;
 import com.tourguide.model.SiteVisitType;
 import com.tourguide.model.Trial;
 import com.tourguide.model.TrialTimeUnit;
 import com.tourguide.model.VisitTreatment;
 import com.tourguide.model.VisitType;
+import com.tourguide.service.patient.PatientService;
 import com.tourguide.service.trial.TrialService;
 import com.tourguide.service.trial.visit.TrialVisitDefService;
 
@@ -31,6 +33,9 @@ public class DashboardController {
 	
     @Autowired
     private TrialService trialService;
+
+    @Autowired
+    private PatientService patientService;
     
     @Autowired
     private TrialVisitDefService trialVisitDefService;  
@@ -39,11 +44,30 @@ public class DashboardController {
 	
     @GetMapping("/")
     public String dashForm(Locale locale, Model model) {
-    	List<Trial> trials = trialService.getList();
+
+    	List<PatientVisit> visits = patientService.getNearestNotVisitedPatients();
+    	PatientVisitListContainer visitsList = new PatientVisitListContainer();
+    	visitsList.setVisits(visits);
     	
-        model.addAttribute("trials", trials);
+    	model.addAttribute("pVisits", visitsList);
         return "dashboard";
     }
+
+    @PostMapping("updatePatientVisits")
+    public String updatePatientVisits(@ModelAttribute(value = "pVisits") PatientVisitListContainer visitsList, 
+    		Locale locale, Model model) {
+
+    	System.out.println(visitsList);
+    	List<PatientVisit> visits = visitsList.getVisits();
+    	if(visits != null && !visits.isEmpty()) {
+    		visits.forEach(visit -> {
+    			//if(visit.getIsVisited() || visit.getPlannedVisitDate() != null)
+    				//patientService.updateVisit(visit);
+    		});
+    	}
+        return "redirect:/";
+    }
+    
     
     @GetMapping("/gotoAddTrial")
     public String gotoAddTrial(final Locale locale, final Model model) {

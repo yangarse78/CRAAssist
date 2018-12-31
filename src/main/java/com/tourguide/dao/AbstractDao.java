@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	public AbstractDao() {
 		this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[1];
+		setClazz(persistentClass);
 	}
 
 	public final void setClazz(Class<T> clazzToSet) {
@@ -62,7 +64,15 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 
 	protected final Session getSession() {
-		return sessionFactory.getCurrentSession();
+		Session session;
+
+		try {
+		    session = sessionFactory.getCurrentSession();
+		} catch (HibernateException e) {
+		    session = sessionFactory.openSession();
+		}
+		
+		return session;
 	}
 
 }

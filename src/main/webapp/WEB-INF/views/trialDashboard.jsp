@@ -110,7 +110,7 @@
 											      <td>${patient.lastName}</td>
 											      <td>${patient.telepone}</td>
 											      <td>${patient.email}</td>
-											      <td><fmt:formatDate value="${patient.screeningDate}" pattern="dd-MM-yyyy" /></td>
+											      <td><fmt:formatDate value="${patient.screeningDate}" pattern="dd/MM/yyyy" /></td>
 											      <td>
 											      		<spring:url value="/patient/${patient.id}" var="viewUrl" />
 		  												<spring:url value="/patient/${patient.id}/update" var="updateUrl" />

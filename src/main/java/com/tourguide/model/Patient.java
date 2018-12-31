@@ -1,5 +1,7 @@
 package com.tourguide.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +67,8 @@ public class Patient {
 	@Fetch(value = FetchMode.SUBSELECT)
     private List<PatientVisit> visits;
 	
+	@Transient
+	private PatientVisit nearestVisitForDash;
 	
 	@Transient
 	private Long selectedTrial;
@@ -146,8 +150,15 @@ public class Patient {
 		return screeningDate;
 	}
 
-	public void setScreeningDate(Date screeningDate) {
-		this.screeningDate = screeningDate;
+	public void setScreeningDate(String screeningDate) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsed = null;
+		try {
+			parsed = format.parse(screeningDate);
+		} catch (ParseException e) {
+
+		}
+		this.screeningDate = parsed;
 	}
 
 	public Long getSelectedTrial() {
@@ -166,4 +177,12 @@ public class Patient {
 		this.visits = visits;
 	}
 
+	public PatientVisit getNearestVisitForDash() {
+		return nearestVisitForDash;
+	}
+
+	public void setNearestVisitForDash(PatientVisit nearestVisitForDash) {
+		this.nearestVisitForDash = nearestVisitForDash;
+	}
+	
 }

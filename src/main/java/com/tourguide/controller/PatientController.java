@@ -2,10 +2,10 @@ package com.tourguide.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -24,12 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tourguide.model.Patient;
 import com.tourguide.model.PatientVisit;
-import com.tourguide.model.SiteVisitType;
+import com.tourguide.model.PatientVisitListContainer;
 import com.tourguide.model.Trial;
-import com.tourguide.model.TrialTimeUnit;
 import com.tourguide.model.TrialVisitDef;
-import com.tourguide.model.VisitTreatment;
-import com.tourguide.model.VisitType;
 import com.tourguide.service.patient.PatientService;
 import com.tourguide.service.trial.TrialService;
 
@@ -69,6 +66,7 @@ public class PatientController {
         updatePatientVisits(patient);
         
         patientService.persist(patient);
+        trial.getPatients().add(patient);
         redirectAttributes.addFlashAttribute("trial", trial);
         return "redirect:/trial/trialDashboard";
     }
@@ -130,24 +128,50 @@ public class PatientController {
         	visit.setDefVisit(defVisitList.get(i));
         	visit.setPatient(patient);
         	Date visitDate = addTimeInterval(defVisit, randomization);
-        	visit.setVisitDate(visitDate);    
-        	Date afterDate = addTimeInterval(defVisit, visitDate);
+        	if(defVisit.getIsRandomization()) {
+        		visitDate = randomization;
+        	} 
+        	
+        	visit.setVisitDate(visitDate);
+        	Date afterDate = calculateVisitWindowTo(defVisit, visitDate);
         	visit.setWindowAfter(afterDate);
-        	Date beforeDate = subtractTimeInterval(defVisit, visitDate);
+        	Date beforeDate = calculateVisitWindowFrom(defVisit, visitDate);
         	visit.setWindowBefore(beforeDate);
         	visits.add(visit);
         }
         patient.setVisits(visits);
 	}
     
-    private Date addTimeInterval(TrialVisitDef defVisitDef, Date randomizationDate) {
+	private Date calculateVisitWindowTo(TrialVisitDef defVisit, Date visitDate) {
     	int daysToAdd;
-    	if(TrialTimeUnitType.WEEKS.equals(defVisitDef.getIntervalType().getId())){
-    		daysToAdd = defVisitDef.getInterval()*7;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisit.getVisitWindowType().getId())){
+    		daysToAdd = defVisit.getVisitWindow()*7;
     	} else {
-    		daysToAdd = defVisitDef.getInterval();
+    		daysToAdd = defVisit.getVisitWindow();
     	}
-		return addDays(randomizationDate, daysToAdd);
+		return addDays(visitDate, daysToAdd);
+	}
+
+    private Date calculateVisitWindowFrom(TrialVisitDef defVisit, Date visitDate) {
+    	int daysToSubtract;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisit.getVisitWindowType().getId())){
+    		daysToSubtract = defVisit.getVisitWindow()*7;
+    	} else {
+    		daysToSubtract = defVisit.getVisitWindow();
+    	}
+    	daysToSubtract *= -1;
+		return addDays(visitDate, daysToSubtract);
+	}
+
+    
+	private Date addTimeInterval(TrialVisitDef defVisit, Date date) {
+    	int daysToAdd;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisit.getIntervalType().getId())){
+    		daysToAdd = defVisit.getInterval()*7;
+    	} else {
+    		daysToAdd = defVisit.getInterval();
+    	}
+		return addDays(date, daysToAdd);
     }
     
     private Date addDays(Date date, int days){
@@ -157,12 +181,12 @@ public class PatientController {
         return cal.getTime();
     }
     
-    private Date subtractTimeInterval(TrialVisitDef defVisitDef, Date lastVisitDate) {
+    private Date subtractTimeInterval(TrialVisitDef defVisit, Date lastVisitDate) {
     	int daysToSubtract;
-    	if(TrialTimeUnitType.WEEKS.equals(defVisitDef.getIntervalType().getId())){
-    		daysToSubtract = defVisitDef.getInterval()*7;
+    	if(TrialTimeUnitType.WEEKS.equals(defVisit.getIntervalType().getId())){
+    		daysToSubtract = defVisit.getInterval()*7;
     	} else {
-    		daysToSubtract = defVisitDef.getInterval();
+    		daysToSubtract = defVisit.getInterval();
     	}
     	daysToSubtract *= -1;
 		return addDays(lastVisitDate, daysToSubtract);
@@ -191,10 +215,45 @@ public class PatientController {
 		logger.debug("showPatient() id: {}", id);
 
 		Patient patient = patientService.getPatientById(id);
+		patient.getVisits().sort(new Comparator<PatientVisit>() {
+			@Override
+			public int compare(PatientVisit o1, PatientVisit o2) {
+				if(o1.getDefVisit().getOrder() > o2.getDefVisit().getOrder()){
+		            return 1;
+		        } else if(o1.getDefVisit().getOrder() < o2.getDefVisit().getOrder()) {
+		        	return -1;
+		        }
+				
+		        return 0;
+			}
+		});
 		model.addAttribute("patient", patient);
 
 		return "patientDetails";
 	}
 	
 	
+    @GetMapping("scheduledVisits")
+    public String dashForm(Locale locale, Model model) {
+
+    	List<PatientVisit> visits = patientService.getScheduledVisits();
+    	PatientVisitListContainer visitsList = new PatientVisitListContainer();
+    	visitsList.setVisits(visits);
+    	
+    	model.addAttribute("pVisits", visitsList);
+        return "scheduledVisits";
+    }
+	
+    
+    @GetMapping("allVisits")
+    public String getAllVisits(Locale locale, Model model) {
+    	
+    	List<PatientVisit> visits = patientService.getAllVisits();
+    	PatientVisitListContainer visitsList = new PatientVisitListContainer();
+    	visitsList.setVisits(visits);
+    	
+    	model.addAttribute("pVisits", visitsList);
+    	return "allVisits";
+    }
+    
 }

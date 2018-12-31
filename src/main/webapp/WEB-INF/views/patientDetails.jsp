@@ -52,7 +52,7 @@
 					</div>
 			     	<div class="row">
 						<label class="col-sm-5">Screening Date</label>
-						<div class="col-sm-7"><fmt:formatDate value="${patient.screeningDate}" pattern="dd-MM-yyyy" /></div>
+						<div class="col-sm-7"><fmt:formatDate value="${patient.screeningDate}" pattern="dd/MM/yyyy" /></div>
 					</div>
 			     	<div class="row">
 						<label class="col-sm-5">Comment</label>
@@ -67,9 +67,9 @@
 					    <tr>
 					      <th scope="col">#</th>
 					      <th scope="col">Treatment</th>
-					      <th scope="col">Before Window</th>
+					      <th scope="col">Visit from</th>
 					      <th scope="col">Next Visit</th>
-					      <th scope="col">After Window</th>
+					      <th scope="col">Visit to</th>
 					      <th scope="col">Visit Type</th>
 					      <th scope="col">Site Visit Type</th>
 					      <th scope="col">Rand</th>
@@ -85,9 +85,9 @@
 									      		<c:if test="${treatmentIndex.index+1 < visit.defVisit.treatments.size()}">,</c:if> 
 									      </c:forEach>
 								      </td>
-								      <td><fmt:formatDate value="${visit.windowBefore}" pattern="dd-MM-yyyy" /></td>
-								      <td><fmt:formatDate value="${visit.visitDate}" pattern="dd-MM-yyyy" /></td>
-								      <td><fmt:formatDate value="${visit.windowAfter}" pattern="dd-MM-yyyy" /></td>
+								      <td><fmt:formatDate value="${visit.windowBefore}" pattern="dd/MM/yyyy" /></td>
+								      <td><fmt:formatDate value="${visit.visitDate}" pattern="dd/MM/yyyy" /></td>
+								      <td><fmt:formatDate value="${visit.windowAfter}" pattern="dd/MM/yyyy" /></td>
 								      <td>${visit.defVisit.visitType.visitType}</td>
 								      <td>${visit.defVisit.siteVisitType.siteVisitType}</td>
 								      <td>

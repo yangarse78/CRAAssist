@@ -48,6 +48,16 @@ public class TrialController {
 ////        model.addAttribute("patients", patientService.getList());
 //        return "addPatient";
 //    }
+	
+	
+    @GetMapping("trialList")
+    public String dashForm(Locale locale, Model model) {
+    	List<Trial> trials = trialService.getList();
+    	
+        model.addAttribute("trials", trials);
+        return "trials";
+    }
+    
 
 	@ModelAttribute("trial")
 	public Trial formBackingObject() {
