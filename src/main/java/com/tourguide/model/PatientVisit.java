@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "PATIENT_VISIT")
@@ -28,15 +29,19 @@ public class PatientVisit {
 	@OneToOne
 	private TrialVisitDef defVisit;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "WINDOW_BEFORE")
 	private Date windowBefore;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "VISIT_DATE")
 	private Date visitDate;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "WINDOW_AFTER")
 	private Date windowAfter;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "PLANNED_VISIT")
 	private Date plannedVisitDate;
 	

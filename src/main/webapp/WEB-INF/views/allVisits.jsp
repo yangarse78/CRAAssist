@@ -103,10 +103,11 @@
 								  </thead>
 								  <tbody id="myTable">
 									  	<c:forEach items="${pVisits.visits}" var="visit" varStatus="visitIndex">
+									  		<%@include file="visitModal.jsp" %>
 									  			<form:hidden path="visits[${visitIndex.index}].patient.id"/>
 									  			<form:hidden path="visits[${visitIndex.index}].defVisit.id"/>
 									  			<form:hidden path="visits[${visitIndex.index}].id"/>
-											    <tr onclick="viewVisitDetails(${visit.id});">
+											    <tr data-toggle="modal" data-target="#myModal_${visitIndex.index}">
 											      <th scope="row">${visitIndex.index}</th>
 											      <td>${visit.patient.subjectId}</td>
 											      <td>${visit.patient.trial.name}</td>

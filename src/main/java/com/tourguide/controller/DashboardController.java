@@ -61,8 +61,8 @@ public class DashboardController {
     	List<PatientVisit> visits = visitsList.getVisits();
     	if(visits != null && !visits.isEmpty()) {
     		visits.forEach(visit -> {
-    			//if(visit.getIsVisited() || visit.getPlannedVisitDate() != null)
-    				//patientService.updateVisit(visit);
+    			if(visit.getIsVisited() || visit.getPlannedVisitDate() != null)
+    				patientService.updateVisit(visit);
     		});
     	}
         return "redirect:/";

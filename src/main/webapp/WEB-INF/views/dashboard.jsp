@@ -29,9 +29,13 @@
 		}
 	</style>
 
-    
+
     <body>
 		<jsp:include page="navBar.jsp" />
+                
+             
+
+                
                 
                 
            <form:form action="updatePatientVisits" method="post" modelAttribute="pVisits" id="pVisitForm">   
@@ -59,25 +63,29 @@
 								    </tr>
 								  </thead>
 								  <tbody id="myTable">
+					  
 									  	<c:forEach items="${pVisits.visits}" var="visit" varStatus="visitIndex">
+												<%@include file="visitModal.jsp" %>
+									  	
 									  			<form:hidden path="visits[${visitIndex.index}].patient.id"/>
 									  			<form:hidden path="visits[${visitIndex.index}].defVisit.id"/>
 									  			<form:hidden path="visits[${visitIndex.index}].id"/>
 									  			<form:hidden path="visits[${visitIndex.index}].windowBefore"/>
 									  			<form:hidden path="visits[${visitIndex.index}].visitDate"/>
 									  			<form:hidden path="visits[${visitIndex.index}].windowAfter"/>
+									  			
 											    <tr>
-											      <th scope="row">${visitIndex.index}</th>
-											      <td>${visit.patient.subjectId}</td>
-											      <td>${visit.patient.trial.name}</td>
-											      <td>${visit.patient.firstName} ${visit.patient.lastName}</td>
-											      <td>${visit.patient.telepone}</td>
-											      <td>
+											      <th scope="row"  data-toggle="modal" data-target="#myModal_${visitIndex.index}">${visitIndex.index}</th>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}">${visit.patient.subjectId}</td>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}">${visit.patient.trial.name}</td>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}">${visit.patient.firstName} ${visit.patient.lastName}</td>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}">${visit.patient.telepone}</td>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}" style="width: 20%">
 											      		<fmt:formatDate value="${visit.windowBefore}" pattern="dd/MM/yyyy" />
 											      		 - 
 											      		<fmt:formatDate value="${visit.windowAfter}" pattern="dd/MM/yyyy" />
 											      </td>
-											      <td>
+											      <td data-toggle="modal" data-target="#myModal_${visitIndex.index}">
 												      <c:forEach items="${visit.defVisit.treatments}" var="treatment" varStatus="treatmentIndex">
 												      		<c:out value="${treatment.treatment}"/>
 												      		<c:if test="${treatmentIndex.index+1 < patient.nearestVisitForDash.defVisit.treatments.size()}">,</c:if> 
